@@ -1,0 +1,22 @@
+START
+
+MAIN 
+{
+	Integer i, N ,M ;
+	Boolean b;
+	
+	i = 0;
+	b = T;
+	
+	LOOP(i == 2)
+	{
+		Increment(i);
+	};
+
+	WHEN(i == 2)
+	{
+		i = 0;
+	};
+}
+
+TERMINATE
