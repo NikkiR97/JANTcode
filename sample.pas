@@ -1,12 +1,12 @@
-START
+START hello;
 
 MAIN 
 {
-	Integer i, N ,M ;
-	Boolean b;
+	Integer i;
 	
 	i = 0;
-	b = T;
+	
+	
 	
 	LOOP(i == 2)
 	{

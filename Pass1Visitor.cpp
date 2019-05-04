@@ -20,6 +20,9 @@ Pass1Visitor::Pass1Visitor()
     symtab_stack = SymTabFactory::create_symtab_stack();
     Predefined::initialize(symtab_stack);
 
+    symtab_stack->set_program_id(program_id);
+
+
     //cout << "=== Pass1Visitor(): symtab stack initialized." << endl;
 }
 
@@ -36,11 +39,10 @@ antlrcpp::Any Pass1Visitor::visitProgram(JANTParser::ProgramContext *ctx)
     // Print the cross-reference table.
     CrossReferencer cross_referencer;
     cross_referencer.print(symtab_stack);
-
     return value;
 }
 
-/*antlrcpp::Any Pass1Visitor::visitHeader(JANTParser::HeaderContext *ctx)
+antlrcpp::Any Pass1Visitor::visitHeader(JANTParser::HeaderContext *ctx)
 {
 //    cout << "=== visitHeader: " + ctx->getText() << endl;
 
@@ -70,7 +72,7 @@ antlrcpp::Any Pass1Visitor::visitProgram(JANTParser::ProgramContext *ctx)
     j_file << ".field private static _standardIn LPascalTextIn;" << endl;
 
     return visitChildren(ctx);
-}*/
+}
 
 antlrcpp::Any Pass1Visitor::visitDeclarations(JANTParser::DeclarationsContext *ctx)
 {
@@ -111,19 +113,20 @@ antlrcpp::Any Pass1Visitor::visitVar_list(JANTParser::Var_listContext *ctx)
 
 antlrcpp::Any Pass1Visitor::visitVar_id(JANTParser::Var_idContext *ctx)
 {
-//    cout << "=== visitVarId: " + ctx->getText() << endl;
+    cout << "=== visitVarId: " + ctx->getText() << endl;
 
     string variable_name = ctx->IDENTIFIER()->toString();
     SymTabEntry *variable_id = symtab_stack->enter_local(variable_name);
     variable_id->set_definition((Definition) DF_VARIABLE);
     variable_id_list.push_back(variable_id);
 
+    cout << "exiting visitVarId: " + ctx->getText() << endl;
     return visitChildren(ctx);
 }
 
 antlrcpp::Any Pass1Visitor::visitType_id(JANTParser::Type_idContext *ctx)
 {
-//    cout << "=== visitTypeId: " + ctx->getText() << endl;
+    cout << "=== visitTypeId: " + ctx->getText() << endl;
 
     TypeSpec *type;
     string type_indicator;
@@ -152,11 +155,11 @@ antlrcpp::Any Pass1Visitor::visitType_id(JANTParser::Type_idContext *ctx)
         j_file << ".field private static "
                << id->get_name() << " " << type_indicator << endl;
     }
-
+    cout<<"leaving visit_type"<<endl;
     return visitChildren(ctx);
 }
 
-/*antlrcpp::Any Pass1Visitor::visitAddSubExpr(JANTParser::AddSubExprContext *ctx)
+antlrcpp::Any Pass1Visitor::visitAddSubExpr(JANTParser::AddSubExprContext *ctx)
 {
 //    cout << "=== visitAddSubExpr: " + ctx->getText() << endl;
 
@@ -198,7 +201,7 @@ antlrcpp::Any Pass1Visitor::visitMulDivExpr(JANTParser::MulDivExprContext *ctx)
     ctx->type = type;
 
     return value;
-}*/
+}
 
 /*antlrcpp::Any Pass1Visitor::visitVariableExpr(JANTParser::VariableExprContext *ctx)
 {
@@ -254,7 +257,7 @@ antlrcpp::Any Pass1Visitor::visitMulDivExpr(JANTParser::MulDivExprContext *ctx)
     return visitChildren(ctx);
 }*/
 
-/*antlrcpp::Any Pass1Visitor::visitParens(JANTParser::ParensContext *ctx)
+antlrcpp::Any Pass1Visitor::visitParens(JANTParser::ParensContext *ctx)
 {
 //    cout << "=== visitParenExpr: " + ctx->getText() << endl;
 
@@ -262,7 +265,7 @@ antlrcpp::Any Pass1Visitor::visitMulDivExpr(JANTParser::MulDivExprContext *ctx)
     ctx->type = ctx->expr()->type;
     return value;
 }
-
+/*
 antlrcpp::Any Pass1Visitor::visitNumber(JANTParser::NumberContext *ctx)
 {
 //    cout << "=== visitUnsignedNumberExpr: " + ctx->getText() << endl;

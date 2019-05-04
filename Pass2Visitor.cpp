@@ -34,7 +34,7 @@ antlrcpp::Any Pass2Visitor::visitProgram(JANTParser::ProgramContext *ctx)
     return visitChildren(ctx);
 }*/
 
-/*antlrcpp::Any Pass2Visitor::visitMainBlock(JANTParser::MainBlockContext *ctx)
+antlrcpp::Any Pass2Visitor::visitMain(JANTParser::MainContext *ctx)
 {
     // Emit the main program header.
     j_file << endl;
@@ -66,7 +66,7 @@ antlrcpp::Any Pass2Visitor::visitProgram(JANTParser::ProgramContext *ctx)
     j_file << ".end method" << endl;
 
     return value;
-}*/
+}
 
 antlrcpp::Any Pass2Visitor::visitStmt(JANTParser::StmtContext *ctx)
 {
@@ -75,7 +75,7 @@ antlrcpp::Any Pass2Visitor::visitStmt(JANTParser::StmtContext *ctx)
     return visitChildren(ctx);
 }
 
-antlrcpp::Any Pass2Visitor::visitAssignmentStmt(JANTParser::AssignmentStmtContext *ctx)
+antlrcpp::Any Pass2Visitor::visitAssignment_stmt(JANTParser::Assignment_stmtContext *ctx)
 {
     auto value = visit(ctx->expr());
 
@@ -130,9 +130,7 @@ antlrcpp::Any Pass2Visitor::visitAddSubExpr(JANTParser::AddSubExprContext *ctx)
     bool integer_mode =    (type1 == Predefined::integer_type)
                         && (type2 == Predefined::integer_type);
     bool real_mode    =    (type1 == Predefined::real_type)
-                        && (type2 == Predefined::real_type);
-
-    string op = ctx->add_sub_operation()->getText();
+                        && (type2 == Predefined::real_type);    string op = ctx->add_sub_operation()->getText();
     string opcode;
 
     if (op == "+")
@@ -238,7 +236,7 @@ antlrcpp::Any Pass2Visitor::visitMulDivExpr(JANTParser::MulDivExprContext *ctx)
     return visitChildren(ctx);
 }*/
 
-antlrcpp::Any visitRelExpr(JANTParser::RelExprContext *ctx){
+antlrcpp::Any Pass2Visitor::visitRelExpr(JANTParser::RelExprContext *ctx){
 
 	auto value = visit(ctx->expr(0));
 	//TypeSpec *type1 = ctx->expr(0)->type;

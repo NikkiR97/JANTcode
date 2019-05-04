@@ -5,7 +5,10 @@ grammar JANT;
 using namespace wci::intermediate;
 }
 
-program : START (|func_list) main TERMINATE ;
+program : START header (|func_list) main TERMINATE ;
+header :  IDENTIFIER ';' ;
+
+
 func_list  : func (func)* ;
 
 func	   : FUNC func_name '(' param_list ')' compound_stmt;
@@ -60,6 +63,7 @@ mul_div_operation : MUL_operation | DIV_operation ;
 add_sub_operation : ADD_operation | SUB_operation ;
 rel_operation     : EQEQ_operation | NE_operation | LT_operation | LE_operation | GT_operation | GE_operation ;
 
+PROGRAM : 'PROGRAM' ;
 MAIN : 'MAIN' ;
 FUNC: 'FUNC' ;
 START : 'START' ;

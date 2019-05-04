@@ -29,7 +29,7 @@ public:
     ostream& get_assembly_file();
 
     antlrcpp::Any visitProgram(JANTParser::ProgramContext *ctx) override;
-    //antlrcpp::Any visitHeader(JANTParser::HeaderContext *ctx) override;
+    antlrcpp::Any visitHeader(JANTParser::HeaderContext *ctx) override;
     antlrcpp::Any visitDeclarations(JANTParser::DeclarationsContext *ctx) override;
     //antlrcpp::Any visitDecl(JANTParser::DeclContext *ctx) override;
     antlrcpp::Any visitVar_list(JANTParser::Var_listContext *ctx) override;
