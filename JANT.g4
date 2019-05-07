@@ -18,7 +18,7 @@ param	   : (|'Ref') variable 'As' type_id;
 
 main   :  MAIN compound_stmt ;
 
-declarations : type_id var_list;
+declarations : type_id var_list ';';
 var_list     : var_id ( ',' var_id )* ;
 var_id       : IDENTIFIER ;
 type_id      : IDENTIFIER ;
@@ -38,7 +38,7 @@ stmt : compound_stmt    # compoundStmt
    
 compound_stmt : BEGIN stmt ';' ( stmt ';')* END ;     
 funcCall_stmt   : func_name '(' var_list ')';     
-assignment_stmt : variable '=' expr ;
+assignment_stmt : variable '=' expr ';';
 loop_stmt  		: LOOP expr stmt ;
 when_stmt       : WHEN expr stmt ;
 

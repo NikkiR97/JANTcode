@@ -76,7 +76,7 @@ antlrcpp::Any Pass1Visitor::visitHeader(JANTParser::HeaderContext *ctx)
 
 antlrcpp::Any Pass1Visitor::visitDeclarations(JANTParser::DeclarationsContext *ctx)
 {
-//    cout << "=== visitDeclarations: " << ctx->getText() << endl;
+    cout << "=== visitDeclarations: " << ctx->getText() << endl;
 
     auto value = visitChildren(ctx);
 
@@ -105,34 +105,50 @@ antlrcpp::Any Pass1Visitor::visitDeclarations(JANTParser::DeclarationsContext *c
 
 antlrcpp::Any Pass1Visitor::visitVar_list(JANTParser::Var_listContext *ctx)
 {
-//    cout << "=== visitVarList: " + ctx->getText() << endl;
-
+	cout << "=== visitVarList: " + ctx->getText() << endl;
+	//cout <<  "~~~~Entering visitVar_list." << endl;
     variable_id_list.resize(0);
+    //cout <<  "~~~~Exiting visitVar_list." << endl;
+
+    TypeSpec *type;
+    string type_indicator;
+    auto value = visitChildren(ctx);
+
+    for(SymTabEntry *id : variable_id_list){
+    	id-> set_typespec(type);
+
+    	if(symtab_stack->get_current_nesting_level() == 1)
+    		j_file <<  ".field private static" << id-> get_name() << " " << type_indicator << endl;
+
+    }
+
     return visitChildren(ctx);
 }
 
 antlrcpp::Any Pass1Visitor::visitVar_id(JANTParser::Var_idContext *ctx)
 {
     cout << "=== visitVarId: " + ctx->getText() << endl;
+	//cout <<  "<<<Entering visitVarId." << endl;
 
     string variable_name = ctx->IDENTIFIER()->toString();
     SymTabEntry *variable_id = symtab_stack->enter_local(variable_name);
     variable_id->set_definition((Definition) DF_VARIABLE);
     variable_id_list.push_back(variable_id);
 
-    cout << "exiting visitVarId: " + ctx->getText() << endl;
+    //out << "<<<Exiting visitVarId: " + ctx->getText() << endl;
     return visitChildren(ctx);
 }
 
 antlrcpp::Any Pass1Visitor::visitType_id(JANTParser::Type_idContext *ctx)
 {
-    cout << "=== visitTypeId: " + ctx->getText() << endl;
+    //cout << "=== visitTypeId: " + ctx->getText() << endl;
+	cout << "=== visitTypeId" << endl;
 
     TypeSpec *type;
     string type_indicator;
 
     string type_name = ctx->IDENTIFIER()->toString();
-    if (type_name == "integer")
+    if (type_name == "Integer")
     {
         type = Predefined::integer_type;
         type_indicator = "I";
@@ -152,10 +168,11 @@ antlrcpp::Any Pass1Visitor::visitType_id(JANTParser::Type_idContext *ctx)
         id->set_typespec(type);
 
         // Emit a field declaration.
+        cout << "Printing Variables. " << endl;
         j_file << ".field private static "
                << id->get_name() << " " << type_indicator << endl;
     }
-    cout<<"leaving visit_type"<<endl;
+    cout<<"leaving visit type_id"<<endl;
     return visitChildren(ctx);
 }
 
@@ -273,4 +290,33 @@ antlrcpp::Any Pass1Visitor::visitNumber(JANTParser::NumberContext *ctx)
 	auto value = visit(ctx->number());
 	ctx->type = ctx->number()->type;
 	return value;
+}*/
+
+//antlrcpp::Any Pass1Visitor::visitFunc(JANTParser::FuncContext *ctx){
+
+
+//}
+
+/*virtual antlrcpp::Any Pass1Visitor::visitAssignmentStmt(JANTParser::AssignmentStmtContext *ctx){
+
+    auto value = visit(ctx->expr());
+
+    string type_indicator =
+                  (ctx->expr()->type == Predefined::integer_type) ? "I"
+                : (ctx->expr()->type == Predefined::real_type)    ? "F"
+                :                                                   "?";
+
+    string var_name = ctx->varible()->IDENTIFIER()->toString();
+
+    if(symtab_stack -> get_current_nesting_level() == 2){
+    	for(int i=0; i<variable_func_list.size; i++){
+    		if(variable_func_list[i] == var_name){
+    			j_file << "\t" << (char)tolower(type_indicator[0]) << "store_" <<i << endl;
+    		}
+    	}
+    }
+
+
+    return value;
+
 }*/
