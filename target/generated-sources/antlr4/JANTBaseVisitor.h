@@ -111,7 +111,19 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitWhenall_stmt(JANTParser::Whenall_stmtContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitWhen_stmt(JANTParser::When_stmtContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitWhenif_stmt(JANTParser::Whenif_stmtContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitOtherwise(JANTParser::OtherwiseContext *ctx) override {
     return visitChildren(ctx);
   }
 

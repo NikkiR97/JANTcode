@@ -69,7 +69,13 @@ public:
 
     virtual antlrcpp::Any visitLoop_stmt(JANTParser::Loop_stmtContext *context) = 0;
 
+    virtual antlrcpp::Any visitWhenall_stmt(JANTParser::Whenall_stmtContext *context) = 0;
+
     virtual antlrcpp::Any visitWhen_stmt(JANTParser::When_stmtContext *context) = 0;
+
+    virtual antlrcpp::Any visitWhenif_stmt(JANTParser::Whenif_stmtContext *context) = 0;
+
+    virtual antlrcpp::Any visitOtherwise(JANTParser::OtherwiseContext *context) = 0;
 
     virtual antlrcpp::Any visitVariable(JANTParser::VariableContext *context) = 0;
 

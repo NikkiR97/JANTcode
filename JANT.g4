@@ -29,7 +29,7 @@ type_id      : IDENTIFIER ;
 stmt : compound_stmt    # compoundStmt
      | assignment_stmt (|';') # assignmentStmt
      | loop_stmt   (|';')# loopStmt 
-     | when_stmt   (|';')  # whenStmt
+     | whenall_stmt   (|';')  # whenStmt
      | funcCall_stmt (|';')	# funcCallStmt
      | declarations	(|';')	#declaration
      |                 # emptyStmt
@@ -40,7 +40,12 @@ compound_stmt : BEGIN stmt ';' ( stmt ';')* END ;
 funcCall_stmt   : func_name '(' var_list ')';     
 assignment_stmt : variable '=' expr ;
 loop_stmt  		: LOOP expr stmt ;
-when_stmt       : WHEN expr stmt ;
+
+whenall_stmt    : when_stmt (whenif_stmt)* otherwise;
+when_stmt       : WHEN expr stmt;
+whenif_stmt     : WHENIF expr stmt;
+otherwise		: OTHERWISE stmt;
+
 
 
 variable : IDENTIFIER ;
@@ -73,6 +78,8 @@ END     : '}' ;
 VAR     : 'VAR' ;
 LOOP   : 'LOOP' ;
 WHEN    : 'WHEN' ;
+WHENIF	: 'WHENIF' ;
+OTHERWISE : 'OTHERWISE' ; 
 
 IDENTIFIER : [a-zA-Z][a-zA-Z0-9]* ;
 INTEGER    : [0-9] ;

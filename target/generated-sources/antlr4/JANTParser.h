@@ -18,11 +18,11 @@ public:
   enum {
     T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, PROGRAM = 7, 
     MAIN = 8, FUNC = 9, START = 10, TERMINATE = 11, BEGIN = 12, END = 13, 
-    VAR = 14, LOOP = 15, WHEN = 16, IDENTIFIER = 17, INTEGER = 18, CHAR = 19, 
-    MUL_operation = 20, DIV_operation = 21, ADD_operation = 22, SUB_operation = 23, 
-    EQ_operation = 24, EQEQ_operation = 25, NE_operation = 26, LT_operation = 27, 
-    LE_operation = 28, GT_operation = 29, GE_operation = 30, NEWLINE = 31, 
-    WS = 32
+    VAR = 14, LOOP = 15, WHEN = 16, WHENIF = 17, OTHERWISE = 18, IDENTIFIER = 19, 
+    INTEGER = 20, CHAR = 21, MUL_operation = 22, DIV_operation = 23, ADD_operation = 24, 
+    SUB_operation = 25, EQ_operation = 26, EQEQ_operation = 27, NE_operation = 28, 
+    LT_operation = 29, LE_operation = 30, GT_operation = 31, GE_operation = 32, 
+    NEWLINE = 33, WS = 34
   };
 
   enum {
@@ -30,9 +30,10 @@ public:
     RuleParam_list = 5, RuleParam = 6, RuleMain = 7, RuleDeclarations = 8, 
     RuleVar_list = 9, RuleVar_id = 10, RuleType_id = 11, RuleStmt = 12, 
     RuleCompound_stmt = 13, RuleFuncCall_stmt = 14, RuleAssignment_stmt = 15, 
-    RuleLoop_stmt = 16, RuleWhen_stmt = 17, RuleVariable = 18, RuleExpr = 19, 
-    RuleNumber = 20, RuleSign = 21, RuleMul_div_operation = 22, RuleAdd_sub_operation = 23, 
-    RuleRel_operation = 24
+    RuleLoop_stmt = 16, RuleWhenall_stmt = 17, RuleWhen_stmt = 18, RuleWhenif_stmt = 19, 
+    RuleOtherwise = 20, RuleVariable = 21, RuleExpr = 22, RuleNumber = 23, 
+    RuleSign = 24, RuleMul_div_operation = 25, RuleAdd_sub_operation = 26, 
+    RuleRel_operation = 27
   };
 
   JANTParser(antlr4::TokenStream *input);
@@ -62,7 +63,10 @@ public:
   class FuncCall_stmtContext;
   class Assignment_stmtContext;
   class Loop_stmtContext;
+  class Whenall_stmtContext;
   class When_stmtContext;
+  class Whenif_stmtContext;
+  class OtherwiseContext;
   class VariableContext;
   class ExprContext;
   class NumberContext;
@@ -257,7 +261,7 @@ public:
   public:
     WhenStmtContext(StmtContext *ctx);
 
-    When_stmtContext *when_stmt();
+    Whenall_stmtContext *whenall_stmt();
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
   };
@@ -377,6 +381,22 @@ public:
 
   Loop_stmtContext* loop_stmt();
 
+  class  Whenall_stmtContext : public antlr4::ParserRuleContext {
+  public:
+    Whenall_stmtContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    When_stmtContext *when_stmt();
+    OtherwiseContext *otherwise();
+    std::vector<Whenif_stmtContext *> whenif_stmt();
+    Whenif_stmtContext* whenif_stmt(size_t i);
+
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  Whenall_stmtContext* whenall_stmt();
+
   class  When_stmtContext : public antlr4::ParserRuleContext {
   public:
     When_stmtContext(antlr4::ParserRuleContext *parent, size_t invokingState);
@@ -391,6 +411,35 @@ public:
   };
 
   When_stmtContext* when_stmt();
+
+  class  Whenif_stmtContext : public antlr4::ParserRuleContext {
+  public:
+    Whenif_stmtContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *WHENIF();
+    ExprContext *expr();
+    StmtContext *stmt();
+
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  Whenif_stmtContext* whenif_stmt();
+
+  class  OtherwiseContext : public antlr4::ParserRuleContext {
+  public:
+    OtherwiseContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *OTHERWISE();
+    StmtContext *stmt();
+
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  OtherwiseContext* otherwise();
 
   class  VariableContext : public antlr4::ParserRuleContext {
   public:

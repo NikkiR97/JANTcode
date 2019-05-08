@@ -30,17 +30,34 @@
 	????
 	putstatic	/j ?
 
+; WHEN(j==2){j=6;}WHENIF(j==1){j=5;}OTHERWISE{j=4;}
+
+
 ; WHEN(j==2){j=6;}
-	if_icmpeq	L
+
+	if_icmpeq	L1
 	putstatic	/j ?
-	When0:
+	goto	L0:
+	L1:
+
+; WHENIF(j==1){j=5;}
+
+	if_icmpeq	L3
+	putstatic	/j ?
+	goto	L0:
+	L3:
+
+; OTHERWISE{j=4;}
+
+	putstatic	/j ?
+	L0:
 
 ; LOOP(i!=7){i=i-1;}
 
-	Loop1:
-	if_icmpne	L2
-	goto	Loop1
-	L2:
+	Loop5:
+	if_icmpne	L6
+	goto	Loop5
+	L6:
 
 	getstatic     /_runTimer LRunTimer;
 	invokevirtual RunTimer.printElapsedTime()V

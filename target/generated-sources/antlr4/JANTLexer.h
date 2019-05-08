@@ -18,11 +18,11 @@ public:
   enum {
     T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, PROGRAM = 7, 
     MAIN = 8, FUNC = 9, START = 10, TERMINATE = 11, BEGIN = 12, END = 13, 
-    VAR = 14, LOOP = 15, WHEN = 16, IDENTIFIER = 17, INTEGER = 18, CHAR = 19, 
-    MUL_operation = 20, DIV_operation = 21, ADD_operation = 22, SUB_operation = 23, 
-    EQ_operation = 24, EQEQ_operation = 25, NE_operation = 26, LT_operation = 27, 
-    LE_operation = 28, GT_operation = 29, GE_operation = 30, NEWLINE = 31, 
-    WS = 32
+    VAR = 14, LOOP = 15, WHEN = 16, WHENIF = 17, OTHERWISE = 18, IDENTIFIER = 19, 
+    INTEGER = 20, CHAR = 21, MUL_operation = 22, DIV_operation = 23, ADD_operation = 24, 
+    SUB_operation = 25, EQ_operation = 26, EQEQ_operation = 27, NE_operation = 28, 
+    LT_operation = 29, LE_operation = 30, GT_operation = 31, GE_operation = 32, 
+    NEWLINE = 33, WS = 34
   };
 
   JANTLexer(antlr4::CharStream *input);

@@ -112,7 +112,7 @@ antlrcpp::Any Pass2Visitor::visitLoop_stmt(JANTParser::Loop_stmtContext *ctx)
     return value;
 }
 
-antlrcpp::Any Pass2Visitor::visitWhen_stmt(JANTParser::When_stmtContext *ctx)
+/*antlrcpp::Any Pass2Visitor::visitWhen_stmt(JANTParser::When_stmtContext *ctx)
 {
 	cout << "===VisitWhenStmt" <<endl;
 	j_file << endl << "; " + ctx->getText() << endl;
@@ -120,6 +120,50 @@ antlrcpp::Any Pass2Visitor::visitWhen_stmt(JANTParser::When_stmtContext *ctx)
     auto value = visitChildren(ctx);
     j_file << "\tWhen" << end << ":" << endl;
     return value;
+}*/
+
+antlrcpp::Any Pass2Visitor::visitWhenall_stmt(JANTParser::Whenall_stmtContext *ctx){
+  j_file << endl
+  	  	 << "; " + ctx->getText() << endl
+  	  	 << endl;
+  end= to_string(loopcount++);
+  auto value = visitChildren(ctx);
+  j_file << "\tL" << end << ":" << endl;
+  return value;
+}
+
+antlrcpp::Any Pass2Visitor::visitWhen_stmt(JANTParser::When_stmtContext *ctx){
+	j_file << endl
+				 << "; " + ctx->getText() << endl
+				 << endl;
+		  curr= to_string(loopcount++);
+		  loopcount++;
+		  auto value = visitChildren(ctx);
+		  j_file << "\tgoto\tL" << end << ":" << endl;
+		  j_file << "\tL" << curr << ":" << endl;
+
+   return value;
+}
+
+antlrcpp::Any Pass2Visitor::visitWhenif_stmt(JANTParser::Whenif_stmtContext *ctx){
+	j_file << endl
+			 << "; " + ctx->getText() << endl
+			 << endl;
+	  curr= to_string(loopcount++);
+	  loopcount++;
+	  auto value = visitChildren(ctx);
+	  j_file << "\tgoto\tL" << end << ":" << endl;
+	  j_file << "\tL" << curr << ":" << endl;
+
+  return value;
+}
+
+antlrcpp::Any Pass2Visitor::visitOtherwise(JANTParser::OtherwiseContext *ctx){
+    j_file  << endl
+    		<< "; " + ctx->getText() <<endl
+			<< endl;
+	auto value = visitChildren(ctx);
+	return value;
 }
 
 antlrcpp::Any Pass2Visitor::visitAddSubExpr(JANTParser::AddSubExprContext *ctx)

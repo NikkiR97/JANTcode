@@ -9,7 +9,15 @@ MAIN
 
 	WHEN(j == 2)
 	{
-	    j=6;
+	    j = 6;
+	}
+	WHENIF(j == 1)
+	{
+	    j = 5;
+	}
+	OTHERWISE
+	{
+	    j = 4;
 	};
 
 	LOOP(i != 7){

@@ -52,8 +52,14 @@ public:
 
     //antlrcpp::Any visitFuncCall_stmt(JANTParser::FuncCall_stmtContext *ctx) override; //new
     antlrcpp::Any visitLoop_stmt(JANTParser::Loop_stmtContext *ctx) override; //new
-    antlrcpp::Any visitWhen_stmt(JANTParser::When_stmtContext *ctx) override; //new
+    //antlrcpp::Any visitWhen_stmt(JANTParser::When_stmtContext *ctx) override; //new
+
+    antlrcpp::Any visitWhenall_stmt(JANTParser::Whenall_stmtContext *ctx) override;
+    antlrcpp::Any visitWhen_stmt(JANTParser::When_stmtContext *ctx) override;
+    antlrcpp::Any visitWhenif_stmt(JANTParser::Whenif_stmtContext *ctx) override;
+    antlrcpp::Any visitOtherwise(JANTParser::OtherwiseContext *ctx) override;
 
 };
+
 
 #endif /* PASS2VISITOR_H_ */
