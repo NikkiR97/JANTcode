@@ -35,6 +35,13 @@
 	putstatic	/j ?
 	When0:
 
+; LOOP(i!=7){i=i-1;}
+
+	Loop1:
+	if_icmpne	L2
+	goto	Loop1
+	L2:
+
 	getstatic     /_runTimer LRunTimer;
 	invokevirtual RunTimer.printElapsedTime()V
 

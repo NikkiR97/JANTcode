@@ -4,7 +4,7 @@ MAIN
 {	
 	Integer i,j;
 
-	i = 0;
+	i = 7;
 	j = 1 + 1;
 
 	WHEN(j == 2)
@@ -12,6 +12,9 @@ MAIN
 	    j=6;
 	};
 
+	LOOP(i != 7){
+	    i=i-1;
+	};
 }
 
 TERMINATE
