@@ -26,8 +26,14 @@
 	dup
 	invokenonvirtual PascalTextIn/<init>()V
 	putstatic        /_standardIn LPascalTextIn;
-	????
 	putstatic	/i ?
+	????
+	putstatic	/j ?
+
+; WHEN(j==2){j=6;}
+	if_icmpeq	L
+	putstatic	/j ?
+	When0:
 
 	getstatic     /_runTimer LRunTimer;
 	invokevirtual RunTimer.printElapsedTime()V

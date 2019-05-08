@@ -77,6 +77,7 @@ antlrcpp::Any Pass2Visitor::visitStmt(JANTParser::StmtContext *ctx)
 
 antlrcpp::Any Pass2Visitor::visitAssignment_stmt(JANTParser::Assignment_stmtContext *ctx)
 {
+	cout << "===VisitAssignmentStmt" <<endl;
     auto value = visit(ctx->expr());
 
     string type_indicator =
@@ -113,7 +114,8 @@ antlrcpp::Any Pass2Visitor::visitLoop_stmt(JANTParser::Loop_stmtContext *ctx)
 
 antlrcpp::Any Pass2Visitor::visitWhen_stmt(JANTParser::When_stmtContext *ctx)
 {
-    j_file << endl << "; " + ctx->getText() << endl;
+	cout << "===VisitWhenStmt" <<endl;
+	j_file << endl << "; " + ctx->getText() << endl;
     end = to_string(loopcount++);
     auto value = visitChildren(ctx);
     j_file << "\tWhen" << end << ":" << endl;
@@ -122,7 +124,9 @@ antlrcpp::Any Pass2Visitor::visitWhen_stmt(JANTParser::When_stmtContext *ctx)
 
 antlrcpp::Any Pass2Visitor::visitAddSubExpr(JANTParser::AddSubExprContext *ctx)
 {
-    auto value = visitChildren(ctx);
+    cout << "===VisitAddSubExpr_2" + ctx->getText() << endl;
+
+	auto value = visitChildren(ctx);
 
     TypeSpec *type1 = ctx->expr(0)->type;
     TypeSpec *type2 = ctx->expr(1)->type;
@@ -154,7 +158,9 @@ antlrcpp::Any Pass2Visitor::visitAddSubExpr(JANTParser::AddSubExprContext *ctx)
 
 antlrcpp::Any Pass2Visitor::visitMulDivExpr(JANTParser::MulDivExprContext *ctx)
 {
-    auto value = visitChildren(ctx);
+	cout << "===VisitMulDivExpr_2" + ctx->getText() << endl;
+
+	auto value = visitChildren(ctx);
 
     TypeSpec *type1 = ctx->expr(0)->type;
     TypeSpec *type2 = ctx->expr(1)->type;
@@ -241,8 +247,17 @@ antlrcpp::Any Pass2Visitor::visitRelExpr(JANTParser::RelExprContext *ctx){
 	auto value = visit(ctx->expr(0));
 	//TypeSpec *type1 = ctx->expr(0)->type;
 
-	visit(ctx->expr(1));
+	cout << "===VisitRelExpr" + ctx->getText() << endl;
+
+	//visit(ctx->expr(1));
 	//TypeSpec *type2 = ctx->expr(1)->type;
+	TypeSpec *type1 = ctx->expr(0)->type;
+	TypeSpec *type2 = ctx->expr(1)->type;
+
+    bool integer_mode =    (type1 == Predefined::integer_type)
+                        && (type2 == Predefined::integer_type);
+    bool real_mode    =    (type1 == Predefined::real_type)
+                        && (type2 == Predefined::real_type);
 
 	string rel = ctx->rel_operation()->getText();
 
@@ -262,11 +277,11 @@ antlrcpp::Any Pass2Visitor::visitRelExpr(JANTParser::RelExprContext *ctx){
 	{
 		j_file << "\tif_icmplt\tL" << curr << endl;
 	}
-	else if (rel == "=")
+	else if (rel == "!=")
 	{
 		j_file << "\tif_icmpne\tL" << curr << endl;
 	}
-	else if (rel == "!=")
+	else if (rel == "==")
 	{
 		j_file << "\tif_icmpeq\tL" << curr << endl;
 	}

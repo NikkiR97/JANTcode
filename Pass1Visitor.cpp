@@ -190,7 +190,7 @@ antlrcpp::Any Pass1Visitor::visitType_id(JANTParser::Type_idContext *ctx)
 
 antlrcpp::Any Pass1Visitor::visitAddSubExpr(JANTParser::AddSubExprContext *ctx)
 {
-//    cout << "=== visitAddSubExpr: " + ctx->getText() << endl;
+    cout << "=== visitAddSubExpr: " + ctx->getText() << endl;
 
     auto value = visitChildren(ctx);
 
@@ -212,7 +212,7 @@ antlrcpp::Any Pass1Visitor::visitAddSubExpr(JANTParser::AddSubExprContext *ctx)
 
 antlrcpp::Any Pass1Visitor::visitMulDivExpr(JANTParser::MulDivExprContext *ctx)
 {
-//    cout << "=== visitMulDivExpr: " + ctx->getText() << endl;
+    cout << "=== visitMulDivExpr: " + ctx->getText() << endl;
 
     auto value = visitChildren(ctx);
 
