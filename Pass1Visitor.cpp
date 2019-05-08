@@ -113,17 +113,18 @@ antlrcpp::Any Pass1Visitor::visitVar_list(JANTParser::Var_listContext *ctx)
     //cout <<  "~~~~Exiting visitVar_list." << endl;
 
 
-    auto value = visitChildren(ctx);
+    /*auto value = visitChildren(ctx);
     int counter=0;
 
-    for(SymTabEntry *id : variable_id_list){
+   for(SymTabEntry *id : variable_id_list){
     	id-> set_typespec(type);
 
     	if(symtab_stack->get_current_nesting_level() == 1)
     		j_file <<  ".field private static" << id-> get_name() << " " << type_indicator << endl;
     	counter=counter+1;
     }
-    indexer = counter+1;
+
+    indexer = counter+1;*/
 
     return visitChildren(ctx);
 }
@@ -141,6 +142,8 @@ antlrcpp::Any Pass1Visitor::visitVar_id(JANTParser::Var_idContext *ctx)
     	//variable_func_list.push_back(variable_name);
 
     //out << "<<<Exiting visitVarId: " + ctx->getText() << endl;
+    variable_id_list.back()-> set_typespec(type);
+    j_file <<  ".field private static" << variable_id_list.back()-> get_name() << " " << type_indicator << endl;
     return visitChildren(ctx);
 }
 
