@@ -2,9 +2,7 @@ START hello;
 
 MAIN 
 {	
-	Integer i;
-	Integer j,k;
-	i = 0;
+	Integer i,j;
 }
 
 TERMINATE

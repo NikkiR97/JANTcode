@@ -21,7 +21,9 @@ Pass1Visitor::Pass1Visitor()
     Predefined::initialize(symtab_stack);
 
     symtab_stack->set_program_id(program_id);
-
+    type = NULL;
+    type_indicator = "";
+    indexer = 0;
 
     //cout << "=== Pass1Visitor(): symtab stack initialized." << endl;
 }
@@ -110,17 +112,18 @@ antlrcpp::Any Pass1Visitor::visitVar_list(JANTParser::Var_listContext *ctx)
     variable_id_list.resize(0);
     //cout <<  "~~~~Exiting visitVar_list." << endl;
 
-    TypeSpec *type;
-    string type_indicator;
+
     auto value = visitChildren(ctx);
+    int counter=0;
 
     for(SymTabEntry *id : variable_id_list){
     	id-> set_typespec(type);
 
     	if(symtab_stack->get_current_nesting_level() == 1)
     		j_file <<  ".field private static" << id-> get_name() << " " << type_indicator << endl;
-
+    	counter=counter+1;
     }
+    indexer = counter+1;
 
     return visitChildren(ctx);
 }
@@ -134,6 +137,8 @@ antlrcpp::Any Pass1Visitor::visitVar_id(JANTParser::Var_idContext *ctx)
     SymTabEntry *variable_id = symtab_stack->enter_local(variable_name);
     variable_id->set_definition((Definition) DF_VARIABLE);
     variable_id_list.push_back(variable_id);
+    //if(symtab_stack->get_current_nesting_level() == 2)
+    	//variable_func_list.push_back(variable_name);
 
     //out << "<<<Exiting visitVarId: " + ctx->getText() << endl;
     return visitChildren(ctx);
@@ -144,8 +149,10 @@ antlrcpp::Any Pass1Visitor::visitType_id(JANTParser::Type_idContext *ctx)
     //cout << "=== visitTypeId: " + ctx->getText() << endl;
 	cout << "=== visitTypeId" << endl;
 
-    TypeSpec *type;
-    string type_indicator;
+    //TypeSpec *type;
+    //string type_indicator;
+
+	//will overwrite type_name and type_indicator everytime so by the time it reaches the varList method, assingments can be done correctly.
 
     string type_name = ctx->IDENTIFIER()->toString();
     if (type_name == "Integer")
@@ -164,7 +171,9 @@ antlrcpp::Any Pass1Visitor::visitType_id(JANTParser::Type_idContext *ctx)
         type_indicator = "?";
     }
 
-    for (SymTabEntry *id : variable_id_list) {
+    cout << ">>>ExitTypeid" << endl;
+
+    /*for (SymTabEntry *id : variable_id_list) {
         id->set_typespec(type);
 
         // Emit a field declaration.
@@ -173,7 +182,7 @@ antlrcpp::Any Pass1Visitor::visitType_id(JANTParser::Type_idContext *ctx)
                << id->get_name() << " " << type_indicator << endl;
     }
     cout<<"leaving visit type_id"<<endl;
-    return visitChildren(ctx);
+    return visitChildren(ctx);*/
 }
 
 antlrcpp::Any Pass1Visitor::visitAddSubExpr(JANTParser::AddSubExprContext *ctx)

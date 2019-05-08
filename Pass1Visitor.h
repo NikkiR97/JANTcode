@@ -20,7 +20,14 @@ private:
     SymTabStack *symtab_stack;
     SymTabEntry *program_id;
     vector<SymTabEntry *> variable_id_list;
+
+    TypeSpec *type;
+    string type_indicator;
+    int indexer;
+    string program_name;
+	string name;
     ofstream j_file;
+
 
 public:
     Pass1Visitor();
