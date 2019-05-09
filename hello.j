@@ -26,9 +26,9 @@
 	dup
 	invokenonvirtual PascalTextIn/<init>()V
 	putstatic        /_standardIn LPascalTextIn;
-	putstatic	/i ?
-	????
-	putstatic	/j ?
+	putstatic	/i I
+	iadd
+	putstatic	/j I
 
 ; WHEN(j==2){j=6;}WHENIF(j==1){j=5;}OTHERWISE{j=4;}
 
@@ -36,20 +36,20 @@
 ; WHEN(j==2){j=6;}
 
 	if_icmpeq	L1
-	putstatic	/j ?
+	putstatic	/j I
 	goto	L0:
 	L1:
 
 ; WHENIF(j==1){j=5;}
 
 	if_icmpeq	L3
-	putstatic	/j ?
+	putstatic	/j I
 	goto	L0:
 	L3:
 
 ; OTHERWISE{j=4;}
 
-	putstatic	/j ?
+	putstatic	/j I
 	L0:
 
 ; LOOP(i!=7){i=i-1;}
@@ -61,6 +61,7 @@
 
 ;PrintTxt(`Hello World, This is the JANT programming language`)
 	getstatic	 java/lang/System/out Ljava/io/PrintStream;
+	 ldc 	`Hello World, This is the JANT programming language`
 	invokevirtual java/io/PrintStream.println(ljaval/lang/String;)V
 
 	getstatic     /_runTimer LRunTimer;

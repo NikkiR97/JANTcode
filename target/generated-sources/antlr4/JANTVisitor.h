@@ -87,11 +87,11 @@ public:
 
     virtual antlrcpp::Any visitIdentifier(JANTParser::IdentifierContext *context) = 0;
 
+    virtual antlrcpp::Any visitDatatypeExpr(JANTParser::DatatypeExprContext *context) = 0;
+
     virtual antlrcpp::Any visitParens(JANTParser::ParensContext *context) = 0;
 
     virtual antlrcpp::Any visitAddSubExpr(JANTParser::AddSubExprContext *context) = 0;
-
-    virtual antlrcpp::Any visitNumberConst(JANTParser::NumberConstContext *context) = 0;
 
     virtual antlrcpp::Any visitRelExpr(JANTParser::RelExprContext *context) = 0;
 
@@ -101,7 +101,9 @@ public:
 
     virtual antlrcpp::Any visitStr_id(JANTParser::Str_idContext *context) = 0;
 
-    virtual antlrcpp::Any visitNumber(JANTParser::NumberContext *context) = 0;
+    virtual antlrcpp::Any visitIntegerConst(JANTParser::IntegerConstContext *context) = 0;
+
+    virtual antlrcpp::Any visitCharConst(JANTParser::CharConstContext *context) = 0;
 
     virtual antlrcpp::Any visitSign(JANTParser::SignContext *context) = 0;
 

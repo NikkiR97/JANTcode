@@ -147,15 +147,15 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitDatatypeExpr(JANTParser::DatatypeExprContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitParens(JANTParser::ParensContext *ctx) override {
     return visitChildren(ctx);
   }
 
   virtual antlrcpp::Any visitAddSubExpr(JANTParser::AddSubExprContext *ctx) override {
-    return visitChildren(ctx);
-  }
-
-  virtual antlrcpp::Any visitNumberConst(JANTParser::NumberConstContext *ctx) override {
     return visitChildren(ctx);
   }
 
@@ -175,7 +175,11 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitNumber(JANTParser::NumberContext *ctx) override {
+  virtual antlrcpp::Any visitIntegerConst(JANTParser::IntegerConstContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitCharConst(JANTParser::CharConstContext *ctx) override {
     return visitChildren(ctx);
   }
 

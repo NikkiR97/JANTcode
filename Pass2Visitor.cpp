@@ -334,10 +334,34 @@ antlrcpp::Any Pass2Visitor::visitRelExpr(JANTParser::RelExprContext *ctx){
 }
 
 /*antlrcpp::Any Pass2Visitor::visitPrintStrStmt(JANTParser::PrintStrStmtContext *ctx){
+	j_file << endl << ';' << ctx->getText() << endl;
+
+	auto value = visit(ctx->str_id());
+
+	j_file << "\t JANT/lang/System/out Ljava/io/PrintStream;" << endl;
+	j_file << "\t ldc \t" << ctx->string()->getText() << endl;
+	j_file << "\t iconst_" << ctx->variable.size()-1 << endl;
+	j_file << "\t anrwarray \t java/lang/Object" << endl;
+
+	for(int i=0; i<variable.size(); i++){
+		j_file << "\tdup\t" <<endl;
+		j_file << "\ticonst_" << i << "\t" <<endl;
+		j_file << "\t getstatic \t FormatTest/n " << ctx->variable(i)->type;
+		j_file << "\tinvokestatic \t java/lang/Integer.valueof(" << ctx->variable(i)->type << ")Ljava/lang/";
+		if(ctx->variable(i) == "I")
+			 j_file << "Integer" << endl;
+
+		j_file << "\taastore\t" << endl;
+
+	}
+
+	j_file << "\tinvokevirtual\t java/io/PrintStream.printf(Ljava/lang/String;[ljava/lang/Object;)Ljava/io/PrintStream;" << endl;
+	j_file << "\tpop\t" << endl;
 
 
 	return value;
 }*/
+
 
 antlrcpp::Any Pass2Visitor::visitPrintTxt(JANTParser::PrintTxtContext *ctx){
 
@@ -346,7 +370,7 @@ antlrcpp::Any Pass2Visitor::visitPrintTxt(JANTParser::PrintTxtContext *ctx){
 
 	j_file << "\tgetstatic\t java/lang/System/out Ljava/io/PrintStream;" << endl;
 	auto value = visitChildren(ctx);
-	//j_file << "\t ldc \t" << ctx->expr(0)->getText() << endl;
+	j_file << "\t ldc \t" << ctx->str_id()->getText() << endl;
 	j_file << "\tinvokevirtual java/io/PrintStream.println(ljaval/lang/String;)V" << endl;
 
 	return value;

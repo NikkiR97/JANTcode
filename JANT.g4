@@ -56,7 +56,7 @@ expr locals [ TypeSpec *type = nullptr ]
 	 : expr mul_div_operation expr     # mulDivExpr
      | expr add_sub_operation expr     # addSubExpr
      | expr rel_operation expr         # relExpr
-     | number                   # numberConst
+     | datatype                   # datatypeExpr
      | IDENTIFIER               # identifier
      | '(' expr ')'             # parens
      ;
@@ -66,8 +66,10 @@ variable locals [ TypeSpec *type = nullptr ]
 str_id locals [ TypeSpec *type = nullptr ]
 	: STRING ;     
      
-number locals [ TypeSpec *type = nullptr ] 
-	 : INTEGER ;
+datatype locals [ TypeSpec *type = nullptr ] 
+	 : INTEGER # integerConst
+	 | CHAR # charConst
+	 ;
 	 
 sign   : '+' | '-' ;
 

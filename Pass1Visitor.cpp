@@ -270,13 +270,13 @@ antlrcpp::Any Pass1Visitor::visitMulDivExpr(JANTParser::MulDivExprContext *ctx)
     return value;
 }*/
 
-/*antlrcpp::Any Pass1Visitor::visitIntegerConst(JANTParser::IntegerConstContext *ctx)
+antlrcpp::Any Pass1Visitor::visitIntegerConst(JANTParser::IntegerConstContext *ctx)
 {
-//    cout << "=== visitIntegerConst: " + ctx->getText() << endl;
+    cout << "=== visitIntegerConst: " + ctx->getText() << endl;
 
     ctx->type = Predefined::integer_type;
     return visitChildren(ctx);
-}*/
+}
 
 /*antlrcpp::Any Pass1Visitor::visitFloatConst(JANTParser::FloatConstContext *ctx)
 {
@@ -333,11 +333,26 @@ antlrcpp::Any Pass1Visitor::visitNumber(JANTParser::NumberContext *ctx)
 
 }*/
 
-antlrcpp::Any Pass1Visitor::visitNumberConst(JANTParser::NumberConstContext *ctx){
+/*antlrcpp::Any Pass1Visitor::visitNumberConst(JANTParser::NumberConstContext *ctx){
 
 	cout << "=== visitNumberConst: " + ctx->getText() << endl;
 
 	auto value = visit(ctx->number());
 	ctx->type = ctx->number()->type;
 	return value;
+}*/
+
+antlrcpp::Any Pass1Visitor::visitDatatypeExpr(JANTParser::DatatypeExprContext *ctx){
+	cout << "=== visitDatatypeConst: " + ctx->getText() << endl;
+
+	auto value = visit(ctx->datatype());
+	ctx->type = ctx->datatype()->type;
+	return value;
+}
+
+antlrcpp::Any Pass1Visitor::visitCharConst(JANTParser::CharConstContext *ctx){
+	//    cout << "=== visitFloatConst: " + ctx->getText() << endl;
+
+	ctx->type = Predefined::char_type;
+	return visitChildren(ctx);
 }

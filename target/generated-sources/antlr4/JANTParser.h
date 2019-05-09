@@ -33,7 +33,7 @@ public:
     RuleCompound_stmt = 13, RuleFuncCall_stmt = 14, RuleAssignment_stmt = 15, 
     RuleLoop_stmt = 16, RuleWhenall_stmt = 17, RuleWhen_stmt = 18, RuleWhenif_stmt = 19, 
     RuleOtherwise = 20, RulePrintStr = 21, RulePrintTxt = 22, RuleExpr = 23, 
-    RuleVariable = 24, RuleStr_id = 25, RuleNumber = 26, RuleSign = 27, 
+    RuleVariable = 24, RuleStr_id = 25, RuleDatatype = 26, RuleSign = 27, 
     RuleMul_div_operation = 28, RuleAdd_sub_operation = 29, RuleRel_operation = 30
   };
 
@@ -73,7 +73,7 @@ public:
   class ExprContext;
   class VariableContext;
   class Str_idContext;
-  class NumberContext;
+  class DatatypeContext;
   class SignContext;
   class Mul_div_operationContext;
   class Add_sub_operationContext;
@@ -516,6 +516,15 @@ public:
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
   };
 
+  class  DatatypeExprContext : public ExprContext {
+  public:
+    DatatypeExprContext(ExprContext *ctx);
+
+    DatatypeContext *datatype();
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
   class  ParensContext : public ExprContext {
   public:
     ParensContext(ExprContext *ctx);
@@ -532,15 +541,6 @@ public:
     std::vector<ExprContext *> expr();
     ExprContext* expr(size_t i);
     Add_sub_operationContext *add_sub_operation();
-
-    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
-  };
-
-  class  NumberConstContext : public ExprContext {
-  public:
-    NumberConstContext(ExprContext *ctx);
-
-    NumberContext *number();
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
   };
@@ -597,19 +597,39 @@ public:
 
   Str_idContext* str_id();
 
-  class  NumberContext : public antlr4::ParserRuleContext {
+  class  DatatypeContext : public antlr4::ParserRuleContext {
   public:
     TypeSpec * type = nullptr;
-    NumberContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    DatatypeContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+   
+    DatatypeContext() = default;
+    void copyFrom(DatatypeContext *context);
+    using antlr4::ParserRuleContext::copyFrom;
+
     virtual size_t getRuleIndex() const override;
-    antlr4::tree::TerminalNode *INTEGER();
 
-
-    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
   };
 
-  NumberContext* number();
+  class  IntegerConstContext : public DatatypeContext {
+  public:
+    IntegerConstContext(DatatypeContext *ctx);
+
+    antlr4::tree::TerminalNode *INTEGER();
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
+  class  CharConstContext : public DatatypeContext {
+  public:
+    CharConstContext(DatatypeContext *ctx);
+
+    antlr4::tree::TerminalNode *CHAR();
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
+  DatatypeContext* datatype();
 
   class  SignContext : public antlr4::ParserRuleContext {
   public:

@@ -48,7 +48,7 @@ public:
     //antlrcpp::Any visitSignedNumberExpr(JANTParser::SignedNumberExprContext *ctx) override;
     //antlrcpp::Any visitSignedNumber(JANTParser::SignedNumberContext *ctx) override;
     //antlrcpp::Any visitUnsignedNumberExpr(JANTParser::UnsignedNumberExprContext *ctx) override;
-    //antlrcpp::Any visitIntegerConst(JANTParser::IntegerConstContext *ctx) override;
+    antlrcpp::Any visitIntegerConst(JANTParser::IntegerConstContext *ctx) override;
     //antlrcpp::Any visitFloatConst(JANTParser::FloatConstContext *ctx) override;
     antlrcpp::Any  visitParens(JANTParser:: ParensContext *ctx) override;
 
@@ -62,7 +62,12 @@ public:
     //antlrcpp::Any visitParam(JANTParser::ParamContext *ctx) override; //new
 
     //antlrcpp::Any visitAssignmentStmt(JANTParser::AssignmentStmtContext *ctx) override;
-    antlrcpp::Any visitNumberConst(JANTParser::NumberConstContext *ctx) override;
+    //antlrcpp::Any visitNumberConst(JANTParser::NumberConstContext *ctx) override;
+    antlrcpp::Any visitDatatypeExpr(JANTParser::DatatypeExprContext *ctx) override;
+
+    antlrcpp::Any visitCharConst(JANTParser::CharConstContext *ctx) override;
+
+    //antlrcpp::Any visitPrintStrStmt(JANTParser::PrintStrStmtContext *ctx) override;
 };
 
 #endif /* PASS1VISITOR_H_ */
