@@ -59,6 +59,10 @@
 	goto	Loop5
 	L6:
 
+;PrintTxt(`Hello World, This is the JANT programming language`)
+	getstatic	 java/lang/System/out Ljava/io/PrintStream;
+	invokevirtual java/io/PrintStream.println(ljaval/lang/String;)V
+
 	getstatic     /_runTimer LRunTimer;
 	invokevirtual RunTimer.printElapsedTime()V
 

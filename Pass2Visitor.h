@@ -59,6 +59,8 @@ public:
     antlrcpp::Any visitWhenif_stmt(JANTParser::Whenif_stmtContext *ctx) override;
     antlrcpp::Any visitOtherwise(JANTParser::OtherwiseContext *ctx) override;
 
+    //antlrcpp::Any visitPrintStrStmt(JANTParser::PrintStrStmtContext *ctx) override;
+    antlrcpp::Any visitPrintTxt(JANTParser::PrintTxtContext *ctx) override;
 };
 
 

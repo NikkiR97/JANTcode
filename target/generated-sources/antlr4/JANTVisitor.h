@@ -59,6 +59,10 @@ public:
 
     virtual antlrcpp::Any visitDeclaration(JANTParser::DeclarationContext *context) = 0;
 
+    virtual antlrcpp::Any visitPrintStrStmt(JANTParser::PrintStrStmtContext *context) = 0;
+
+    virtual antlrcpp::Any visitPrintTxtStmt(JANTParser::PrintTxtStmtContext *context) = 0;
+
     virtual antlrcpp::Any visitEmptyStmt(JANTParser::EmptyStmtContext *context) = 0;
 
     virtual antlrcpp::Any visitCompound_stmt(JANTParser::Compound_stmtContext *context) = 0;
@@ -77,7 +81,9 @@ public:
 
     virtual antlrcpp::Any visitOtherwise(JANTParser::OtherwiseContext *context) = 0;
 
-    virtual antlrcpp::Any visitVariable(JANTParser::VariableContext *context) = 0;
+    virtual antlrcpp::Any visitPrintStr(JANTParser::PrintStrContext *context) = 0;
+
+    virtual antlrcpp::Any visitPrintTxt(JANTParser::PrintTxtContext *context) = 0;
 
     virtual antlrcpp::Any visitIdentifier(JANTParser::IdentifierContext *context) = 0;
 
@@ -90,6 +96,10 @@ public:
     virtual antlrcpp::Any visitRelExpr(JANTParser::RelExprContext *context) = 0;
 
     virtual antlrcpp::Any visitMulDivExpr(JANTParser::MulDivExprContext *context) = 0;
+
+    virtual antlrcpp::Any visitVariable(JANTParser::VariableContext *context) = 0;
+
+    virtual antlrcpp::Any visitStr_id(JANTParser::Str_idContext *context) = 0;
 
     virtual antlrcpp::Any visitNumber(JANTParser::NumberContext *context) = 0;
 

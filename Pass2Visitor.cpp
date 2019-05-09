@@ -123,17 +123,17 @@ antlrcpp::Any Pass2Visitor::visitLoop_stmt(JANTParser::Loop_stmtContext *ctx)
 }*/
 
 antlrcpp::Any Pass2Visitor::visitWhenall_stmt(JANTParser::Whenall_stmtContext *ctx){
-  j_file << endl
-  	  	 << "; " + ctx->getText() << endl
-  	  	 << endl;
-  end= to_string(loopcount++);
-  auto value = visitChildren(ctx);
-  j_file << "\tL" << end << ":" << endl;
-  return value;
+	  j_file << endl
+			 << "; " + ctx->getText() << endl
+			 << endl;
+	  end= to_string(loopcount++);
+	  auto value = visitChildren(ctx);
+	  j_file << "\tL" << end << ":" << endl;
+	  return value;
 }
 
 antlrcpp::Any Pass2Visitor::visitWhen_stmt(JANTParser::When_stmtContext *ctx){
-	j_file << endl
+	  j_file << endl
 				 << "; " + ctx->getText() << endl
 				 << endl;
 		  curr= to_string(loopcount++);
@@ -332,3 +332,23 @@ antlrcpp::Any Pass2Visitor::visitRelExpr(JANTParser::RelExprContext *ctx){
 
 	return value;
 }
+
+/*antlrcpp::Any Pass2Visitor::visitPrintStrStmt(JANTParser::PrintStrStmtContext *ctx){
+
+
+	return value;
+}*/
+
+antlrcpp::Any Pass2Visitor::visitPrintTxt(JANTParser::PrintTxtContext *ctx){
+
+
+	j_file << endl << ';' << ctx->getText() << endl;
+
+	j_file << "\tgetstatic\t java/lang/System/out Ljava/io/PrintStream;" << endl;
+	auto value = visitChildren(ctx);
+	//j_file << "\t ldc \t" << ctx->expr(0)->getText() << endl;
+	j_file << "\tinvokevirtual java/io/PrintStream.println(ljaval/lang/String;)V" << endl;
+
+	return value;
+}
+

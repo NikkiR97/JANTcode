@@ -62,6 +62,7 @@ public:
     //antlrcpp::Any visitParam(JANTParser::ParamContext *ctx) override; //new
 
     //antlrcpp::Any visitAssignmentStmt(JANTParser::AssignmentStmtContext *ctx) override;
+    antlrcpp::Any visitNumberConst(JANTParser::NumberConstContext *ctx) override;
 };
 
 #endif /* PASS1VISITOR_H_ */

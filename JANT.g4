@@ -32,6 +32,8 @@ stmt : compound_stmt    # compoundStmt
      | whenall_stmt   (|';')  # whenStmt
      | funcCall_stmt (|';')	# funcCallStmt
      | declarations	(|';')	#declaration
+     | printStr (|';') # printStrStmt
+     | printTxt (|';') # printTxtStmt
      |                 # emptyStmt
      ;
      
@@ -47,8 +49,8 @@ whenif_stmt     : WHENIF expr stmt;
 otherwise		: OTHERWISE stmt;
 
 
-
-variable : IDENTIFIER ;
+printStr : PRINTSTR '(' str_id (',' variable)* ')'; 
+printTxt : PRINTXT '(' str_id ')' ; 
 
 expr locals [ TypeSpec *type = nullptr ]
 	 : expr mul_div_operation expr     # mulDivExpr
@@ -58,9 +60,15 @@ expr locals [ TypeSpec *type = nullptr ]
      | IDENTIFIER               # identifier
      | '(' expr ')'             # parens
      ;
+
+variable locals [ TypeSpec *type = nullptr ]
+	: IDENTIFIER ;
+str_id locals [ TypeSpec *type = nullptr ]
+	: STRING ;     
      
 number locals [ TypeSpec *type = nullptr ] 
-	 : sign? INTEGER ;
+	 : INTEGER ;
+	 
 sign   : '+' | '-' ;
 
     
@@ -79,7 +87,10 @@ VAR     : 'VAR' ;
 LOOP   : 'LOOP' ;
 WHEN    : 'WHEN' ;
 WHENIF	: 'WHENIF' ;
-OTHERWISE : 'OTHERWISE' ; 
+OTHERWISE : 'OTHERWISE' ;
+PRINTSTR : 'PrintStr' ;
+PRINTXT	 : 'PrintTxt' ;
+STRING : '`'('``' |~ ('`')*)'`' ;
 
 IDENTIFIER : [a-zA-Z][a-zA-Z0-9]* ;
 INTEGER    : [0-9] ;

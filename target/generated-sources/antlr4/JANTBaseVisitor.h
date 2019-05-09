@@ -91,6 +91,14 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitPrintStrStmt(JANTParser::PrintStrStmtContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitPrintTxtStmt(JANTParser::PrintTxtStmtContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitEmptyStmt(JANTParser::EmptyStmtContext *ctx) override {
     return visitChildren(ctx);
   }
@@ -127,7 +135,11 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitVariable(JANTParser::VariableContext *ctx) override {
+  virtual antlrcpp::Any visitPrintStr(JANTParser::PrintStrContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitPrintTxt(JANTParser::PrintTxtContext *ctx) override {
     return visitChildren(ctx);
   }
 
@@ -152,6 +164,14 @@ public:
   }
 
   virtual antlrcpp::Any visitMulDivExpr(JANTParser::MulDivExprContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitVariable(JANTParser::VariableContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitStr_id(JANTParser::Str_idContext *ctx) override {
     return visitChildren(ctx);
   }
 

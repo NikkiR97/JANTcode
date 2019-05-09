@@ -23,6 +23,8 @@ MAIN
 	LOOP(i != 7){
 	    i=i-1;
 	};
+
+	PrintTxt(`Hello World, This is the JANT programming language`);
 }
 
 TERMINATE

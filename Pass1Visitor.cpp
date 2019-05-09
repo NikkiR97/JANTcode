@@ -332,3 +332,12 @@ antlrcpp::Any Pass1Visitor::visitNumber(JANTParser::NumberContext *ctx)
     return value;
 
 }*/
+
+antlrcpp::Any Pass1Visitor::visitNumberConst(JANTParser::NumberConstContext *ctx){
+
+	cout << "=== visitNumberConst: " + ctx->getText() << endl;
+
+	auto value = visit(ctx->number());
+	ctx->type = ctx->number()->type;
+	return value;
+}

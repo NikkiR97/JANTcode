@@ -18,11 +18,12 @@ public:
   enum {
     T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, PROGRAM = 7, 
     MAIN = 8, FUNC = 9, START = 10, TERMINATE = 11, BEGIN = 12, END = 13, 
-    VAR = 14, LOOP = 15, WHEN = 16, WHENIF = 17, OTHERWISE = 18, IDENTIFIER = 19, 
-    INTEGER = 20, CHAR = 21, MUL_operation = 22, DIV_operation = 23, ADD_operation = 24, 
-    SUB_operation = 25, EQ_operation = 26, EQEQ_operation = 27, NE_operation = 28, 
-    LT_operation = 29, LE_operation = 30, GT_operation = 31, GE_operation = 32, 
-    NEWLINE = 33, WS = 34
+    VAR = 14, LOOP = 15, WHEN = 16, WHENIF = 17, OTHERWISE = 18, PRINTSTR = 19, 
+    PRINTXT = 20, STRING = 21, IDENTIFIER = 22, INTEGER = 23, CHAR = 24, 
+    MUL_operation = 25, DIV_operation = 26, ADD_operation = 27, SUB_operation = 28, 
+    EQ_operation = 29, EQEQ_operation = 30, NE_operation = 31, LT_operation = 32, 
+    LE_operation = 33, GT_operation = 34, GE_operation = 35, NEWLINE = 36, 
+    WS = 37
   };
 
   enum {
@@ -31,9 +32,9 @@ public:
     RuleVar_list = 9, RuleVar_id = 10, RuleType_id = 11, RuleStmt = 12, 
     RuleCompound_stmt = 13, RuleFuncCall_stmt = 14, RuleAssignment_stmt = 15, 
     RuleLoop_stmt = 16, RuleWhenall_stmt = 17, RuleWhen_stmt = 18, RuleWhenif_stmt = 19, 
-    RuleOtherwise = 20, RuleVariable = 21, RuleExpr = 22, RuleNumber = 23, 
-    RuleSign = 24, RuleMul_div_operation = 25, RuleAdd_sub_operation = 26, 
-    RuleRel_operation = 27
+    RuleOtherwise = 20, RulePrintStr = 21, RulePrintTxt = 22, RuleExpr = 23, 
+    RuleVariable = 24, RuleStr_id = 25, RuleNumber = 26, RuleSign = 27, 
+    RuleMul_div_operation = 28, RuleAdd_sub_operation = 29, RuleRel_operation = 30
   };
 
   JANTParser(antlr4::TokenStream *input);
@@ -67,8 +68,11 @@ public:
   class When_stmtContext;
   class Whenif_stmtContext;
   class OtherwiseContext;
-  class VariableContext;
+  class PrintStrContext;
+  class PrintTxtContext;
   class ExprContext;
+  class VariableContext;
+  class Str_idContext;
   class NumberContext;
   class SignContext;
   class Mul_div_operationContext;
@@ -266,6 +270,15 @@ public:
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
   };
 
+  class  PrintTxtStmtContext : public StmtContext {
+  public:
+    PrintTxtStmtContext(StmtContext *ctx);
+
+    PrintTxtContext *printTxt();
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
   class  LoopStmtContext : public StmtContext {
   public:
     LoopStmtContext(StmtContext *ctx);
@@ -280,6 +293,15 @@ public:
     CompoundStmtContext(StmtContext *ctx);
 
     Compound_stmtContext *compound_stmt();
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
+  class  PrintStrStmtContext : public StmtContext {
+  public:
+    PrintStrStmtContext(StmtContext *ctx);
+
+    PrintStrContext *printStr();
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
   };
@@ -441,18 +463,35 @@ public:
 
   OtherwiseContext* otherwise();
 
-  class  VariableContext : public antlr4::ParserRuleContext {
+  class  PrintStrContext : public antlr4::ParserRuleContext {
   public:
-    VariableContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    PrintStrContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    antlr4::tree::TerminalNode *IDENTIFIER();
+    antlr4::tree::TerminalNode *PRINTSTR();
+    Str_idContext *str_id();
+    std::vector<VariableContext *> variable();
+    VariableContext* variable(size_t i);
 
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
   };
 
-  VariableContext* variable();
+  PrintStrContext* printStr();
+
+  class  PrintTxtContext : public antlr4::ParserRuleContext {
+  public:
+    PrintTxtContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *PRINTXT();
+    Str_idContext *str_id();
+
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  PrintTxtContext* printTxt();
 
   class  ExprContext : public antlr4::ParserRuleContext {
   public:
@@ -530,13 +569,40 @@ public:
 
   ExprContext* expr();
   ExprContext* expr(int precedence);
+  class  VariableContext : public antlr4::ParserRuleContext {
+  public:
+    TypeSpec * type = nullptr;
+    VariableContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *IDENTIFIER();
+
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  VariableContext* variable();
+
+  class  Str_idContext : public antlr4::ParserRuleContext {
+  public:
+    TypeSpec * type = nullptr;
+    Str_idContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *STRING();
+
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  Str_idContext* str_id();
+
   class  NumberContext : public antlr4::ParserRuleContext {
   public:
     TypeSpec * type = nullptr;
     NumberContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *INTEGER();
-    SignContext *sign();
 
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
