@@ -3,8 +3,9 @@
 
 .field private static _runTimer LRunTimer;
 .field private static _standardIn LPascalTextIn;
-.field private statici I
-.field private staticj I
+.field private static i I
+.field private static j I
+.field private static k I
 
 .method public <init>()V
 
@@ -21,50 +22,25 @@
 	new RunTimer
 	dup
 	invokenonvirtual RunTimer/<init>()V
-	putstatic        /_runTimer LRunTimer;
+	putstatic        hello/_runTimer LRunTimer;
 	new PascalTextIn
 	dup
 	invokenonvirtual PascalTextIn/<init>()V
-	putstatic        /_standardIn LPascalTextIn;
-	putstatic	/i I
+	putstatic        hello/_standardIn LPascalTextIn;
+		ldc	7
+		putstatic	hello/i I
+		ldc	1
+		ldc	1
 	iadd
-	putstatic	/j I
+		putstatic	hello/j I
+		ldc	7
+		ldc	8
+	iadd
+		ldc	9
+	iadd
+		putstatic	hello/k I
 
-; WHEN(j==2){j=6;}WHENIF(j==1){j=5;}OTHERWISE{j=4;}
-
-
-; WHEN(j==2){j=6;}
-
-	if_icmpeq	L1
-	putstatic	/j I
-	goto	L0:
-	L1:
-
-; WHENIF(j==1){j=5;}
-
-	if_icmpeq	L3
-	putstatic	/j I
-	goto	L0:
-	L3:
-
-; OTHERWISE{j=4;}
-
-	putstatic	/j I
-	L0:
-
-; LOOP(i!=7){i=i-1;}
-
-	Loop5:
-	if_icmpne	L6
-	goto	Loop5
-	L6:
-
-;PrintTxt(`Hello World, This is the JANT programming language`)
-	getstatic	 java/lang/System/out Ljava/io/PrintStream;
-	 ldc 	`Hello World, This is the JANT programming language`
-	invokevirtual java/io/PrintStream.println(ljaval/lang/String;)V
-
-	getstatic     /_runTimer LRunTimer;
+	getstatic     hello/_runTimer LRunTimer;
 	invokevirtual RunTimer.printElapsedTime()V
 
 	return

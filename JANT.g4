@@ -57,17 +57,17 @@ expr locals [ TypeSpec *type = nullptr ]
      | expr add_sub_operation expr     # addSubExpr
      | expr rel_operation expr         # relExpr
      | datatype                   # datatypeExpr
-     | IDENTIFIER               # identifier
+     | variable               # variableExpr
      | '(' expr ')'             # parens
      ;
 
-variable locals [ TypeSpec *type = nullptr ]
-	: IDENTIFIER ;
+variable : IDENTIFIER ;
 str_id locals [ TypeSpec *type = nullptr ]
 	: STRING ;     
      
 datatype locals [ TypeSpec *type = nullptr ] 
 	 : INTEGER # integerConst
+	 | FLOAT # floatConst
 	 | CHAR # charConst
 	 ;
 	 
@@ -96,6 +96,7 @@ STRING : '`'('``' |~ ('`')*)'`' ;
 
 IDENTIFIER : [a-zA-Z][a-zA-Z0-9]* ;
 INTEGER    : [0-9] ;
+FLOAT      : [0-9]+ '.' +[0-9]+;
 CHAR       : [a-z] ;
 
 MUL_operation :   '*' ;

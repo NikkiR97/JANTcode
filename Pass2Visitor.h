@@ -29,16 +29,16 @@ public:
     virtual ~Pass2Visitor();
 
     antlrcpp::Any visitProgram(JANTParser::ProgramContext *ctx) override;
-    //antlrcpp::Any visitHeader(JANTParser::HeaderContext *ctx) override; //no header in ours
+    antlrcpp::Any visitHeader(JANTParser::HeaderContext *ctx) override; //no header in ours
     antlrcpp::Any visitMain(JANTParser::MainContext *ctx) override;
     antlrcpp::Any visitStmt(JANTParser::StmtContext *ctx); //override
     antlrcpp::Any visitAssignment_stmt(JANTParser::Assignment_stmtContext *ctx) override;
     antlrcpp::Any visitAddSubExpr(JANTParser::AddSubExprContext *ctx) override;
     antlrcpp::Any visitMulDivExpr(JANTParser::MulDivExprContext *ctx) override;
-    //antlrcpp::Any visitVariableExpr(JANTParser::VariableExprContext *ctx) override; //expr locals
+    antlrcpp::Any visitVariableExpr(JANTParser::VariableExprContext *ctx) override; //expr locals
     //antlrcpp::Any visitSign(JANTParser::SignContext *ctx) override; //expr locals
-    //antlrcpp::Any visitInteger(JANTParser::IntegerConst *ctx) override; //number locals
-    //antlrcpp::Any visitFloatConst(JANTParser::FloatConstContext *ctx) override; //number locals
+    antlrcpp::Any visitIntegerConst(JANTParser::IntegerConstContext *ctx) override; //number locals
+    antlrcpp::Any visitFloatConst(JANTParser::FloatConstContext *ctx) override; //number locals
     //antlrcpp::Any visitLoopStmt(JANTParser::LoopStmtContext *ctx) override;
     //antlrcpp::Any visitCondStmt(JANTParser::CondStmtContext *ctx) override;
     //antlrcpp::Any visitSign(JANTParser::SignContext *ctx) override; //expr locals

@@ -143,7 +143,7 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitIdentifier(JANTParser::IdentifierContext *ctx) override {
+  virtual antlrcpp::Any visitVariableExpr(JANTParser::VariableExprContext *ctx) override {
     return visitChildren(ctx);
   }
 
@@ -176,6 +176,10 @@ public:
   }
 
   virtual antlrcpp::Any visitIntegerConst(JANTParser::IntegerConstContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitFloatConst(JANTParser::FloatConstContext *ctx) override {
     return visitChildren(ctx);
   }
 

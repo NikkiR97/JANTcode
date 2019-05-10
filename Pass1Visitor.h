@@ -44,12 +44,12 @@ public:
     antlrcpp::Any visitType_id(JANTParser::Type_idContext *ctx) override;
     antlrcpp::Any visitAddSubExpr(JANTParser::AddSubExprContext *ctx) override;
     antlrcpp::Any visitMulDivExpr(JANTParser::MulDivExprContext *ctx) override;
-    //antlrcpp::Any visitVariableExpr(JANTParser::VariableExprContext *ctx) override;
+    antlrcpp::Any visitVariableExpr(JANTParser::VariableExprContext *ctx) override;
     //antlrcpp::Any visitSignedNumberExpr(JANTParser::SignedNumberExprContext *ctx) override;
     //antlrcpp::Any visitSignedNumber(JANTParser::SignedNumberContext *ctx) override;
     //antlrcpp::Any visitUnsignedNumberExpr(JANTParser::UnsignedNumberExprContext *ctx) override;
     antlrcpp::Any visitIntegerConst(JANTParser::IntegerConstContext *ctx) override;
-    //antlrcpp::Any visitFloatConst(JANTParser::FloatConstContext *ctx) override;
+    antlrcpp::Any visitFloatConst(JANTParser::FloatConstContext *ctx) override;
     antlrcpp::Any  visitParens(JANTParser:: ParensContext *ctx) override;
 
     //antlrcpp::Any visitRelExpr(JANTParser::RelExprContext *ctx) override; //new

@@ -143,7 +143,7 @@ antlrcpp::Any Pass1Visitor::visitVar_id(JANTParser::Var_idContext *ctx)
 
     //out << "<<<Exiting visitVarId: " + ctx->getText() << endl;
     variable_id_list.back()-> set_typespec(type);
-    j_file <<  ".field private static" << variable_id_list.back()-> get_name() << " " << type_indicator << endl;
+    j_file <<  ".field private static " << variable_id_list.back()-> get_name() << " " << type_indicator << endl;
     return visitChildren(ctx);
 }
 
@@ -167,6 +167,10 @@ antlrcpp::Any Pass1Visitor::visitType_id(JANTParser::Type_idContext *ctx)
     {
         type = Predefined::real_type;
         type_indicator = "F";
+    }
+    else if (type_name == "Char"){
+    	type = Predefined::char_type;
+    	type_indicator = "C";
     }
     else
     {
@@ -232,7 +236,7 @@ antlrcpp::Any Pass1Visitor::visitMulDivExpr(JANTParser::MulDivExprContext *ctx)
     return value;
 }
 
-/*antlrcpp::Any Pass1Visitor::visitVariableExpr(JANTParser::VariableExprContext *ctx)
+antlrcpp::Any Pass1Visitor::visitVariableExpr(JANTParser::VariableExprContext *ctx)
 {
 //    cout << "=== visitVariableExpr: " + ctx->getText() << endl;
 
@@ -241,7 +245,7 @@ antlrcpp::Any Pass1Visitor::visitMulDivExpr(JANTParser::MulDivExprContext *ctx)
 
     ctx->type = variable_id->get_typespec();
     return visitChildren(ctx);
-}*/
+}
 
 /*antlrcpp::Any Pass1Visitor::visitSignedNumberExpr(JANTParser::SignedNumberExprContext *ctx)
 {
@@ -278,17 +282,17 @@ antlrcpp::Any Pass1Visitor::visitIntegerConst(JANTParser::IntegerConstContext *c
     return visitChildren(ctx);
 }
 
-/*antlrcpp::Any Pass1Visitor::visitFloatConst(JANTParser::FloatConstContext *ctx)
+antlrcpp::Any Pass1Visitor::visitFloatConst(JANTParser::FloatConstContext *ctx)
 {
-//    cout << "=== visitFloatConst: " + ctx->getText() << endl;
+    cout << "=== visitFloatConst: " + ctx->getText() << endl;
 
     ctx->type = Predefined::real_type;
     return visitChildren(ctx);
-}*/
+}
 
 antlrcpp::Any Pass1Visitor::visitParens(JANTParser::ParensContext *ctx)
 {
-//    cout << "=== visitParenExpr: " + ctx->getText() << endl;
+    cout << "=== visitParenExpr: " + ctx->getText() << endl;
 
     auto value = visitChildren(ctx);
     ctx->type = ctx->expr()->type;

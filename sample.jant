@@ -1,0 +1,12 @@
+START hello;
+
+MAIN 
+{	
+	Integer i,j,k;
+
+	i = 7;
+	j = 1 + 1;
+	k = 7 + 8 + 9;
+}
+
+TERMINATE

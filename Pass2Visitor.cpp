@@ -28,11 +28,11 @@ antlrcpp::Any Pass2Visitor::visitProgram(JANTParser::ProgramContext *ctx)
     return value;
 }
 
-/*antlrcpp::Any Pass2Visitor::visitHeader(JANTParser::HeaderContext *ctx)
+antlrcpp::Any Pass2Visitor::visitHeader(JANTParser::HeaderContext *ctx)
 {
     program_name = ctx->IDENTIFIER()->toString();
     return visitChildren(ctx);
-}*/
+}
 
 antlrcpp::Any Pass2Visitor::visitMain(JANTParser::MainContext *ctx)
 {
@@ -86,7 +86,7 @@ antlrcpp::Any Pass2Visitor::visitAssignment_stmt(JANTParser::Assignment_stmtCont
                 :                                                   "?";
 
     // Emit a field put instruction.
-    j_file << "\tputstatic\t" << program_name
+    j_file << "\t\tputstatic\t" << program_name
            << "/" << ctx->variable()->IDENTIFIER()->toString()
            << " " << type_indicator << endl;
 
@@ -102,12 +102,12 @@ antlrcpp::Any Pass2Visitor::visitLoop_stmt(JANTParser::Loop_stmtContext *ctx)
     loopcount++;
     j_file << endl << "; " + ctx->getText() << endl << endl;
 
-    j_file << "\tLoop" << start<< ":" << endl;
+    //j_file << "\tL00" << start << ":" << endl << endl;
 
     auto value = visit(ctx->expr());
     //visit(ctx->Compound_stmt());
-    j_file << "\tgoto\tLoop" << start << endl;
-    j_file << "\tL" << curr << ":" << endl;
+    j_file << "\t\tgoto\tL00" << start << endl;
+    j_file << "L" << curr << ":" << endl;
 
     return value;
 }
@@ -128,7 +128,7 @@ antlrcpp::Any Pass2Visitor::visitWhenall_stmt(JANTParser::Whenall_stmtContext *c
 			 << endl;
 	  end= to_string(loopcount++);
 	  auto value = visitChildren(ctx);
-	  j_file << "\tL" << end << ":" << endl;
+	  j_file << "L" << end << ":" << endl;
 	  return value;
 }
 
@@ -136,11 +136,11 @@ antlrcpp::Any Pass2Visitor::visitWhen_stmt(JANTParser::When_stmtContext *ctx){
 	  j_file << endl
 				 << "; " + ctx->getText() << endl
 				 << endl;
-		  curr= to_string(loopcount++);
-		  loopcount++;
-		  auto value = visitChildren(ctx);
-		  j_file << "\tgoto\tL" << end << ":" << endl;
-		  j_file << "\tL" << curr << ":" << endl;
+	  curr= to_string(loopcount);
+	  loopcount++;
+	  auto value = visitChildren(ctx);
+	  j_file << "\t\tgoto\tL" << end << ":" << endl;
+	  j_file << "L" << curr << ":" << endl;
 
    return value;
 }
@@ -149,11 +149,11 @@ antlrcpp::Any Pass2Visitor::visitWhenif_stmt(JANTParser::Whenif_stmtContext *ctx
 	j_file << endl
 			 << "; " + ctx->getText() << endl
 			 << endl;
-	  curr= to_string(loopcount++);
+	  curr= to_string(loopcount);
 	  loopcount++;
 	  auto value = visitChildren(ctx);
-	  j_file << "\tgoto\tL" << end << ":" << endl;
-	  j_file << "\tL" << curr << ":" << endl;
+	  j_file << "\t\tgoto\tL" << end << ":" << endl;
+	  j_file << "L" << curr << ":" << endl;
 
   return value;
 }
@@ -236,21 +236,22 @@ antlrcpp::Any Pass2Visitor::visitMulDivExpr(JANTParser::MulDivExprContext *ctx)
     return value;
 }
 
-/*antlrcpp::Any Pass2Visitor::visitVariableExpr(JANTParser::VariableExprContext *ctx)
+antlrcpp::Any Pass2Visitor::visitVariableExpr(JANTParser::VariableExprContext *ctx)
 {
     string variable_name = ctx->variable()->IDENTIFIER()->toString();
     TypeSpec *type = ctx->type;
 
     string type_indicator = (type == Predefined::integer_type) ? "I"
                           : (type == Predefined::real_type)    ? "F"
+						  : (type == Predefined::real_type)    ? "C"
                           :                                      "?";
 
     // Emit a field get instruction.
-    j_file << "\tgetstatic\t" << program_name
+    j_file << "\t\tgetstatic\t" << program_name
            << "/" << variable_name << " " << type_indicator << endl;
 
     return visitChildren(ctx);
-}*/
+}
 
 /*antlrcpp::Any Pass2Visitor::visitSignedNumber(JANTParser::SignedNumberContext *ctx)
 {
@@ -270,65 +271,68 @@ antlrcpp::Any Pass2Visitor::visitMulDivExpr(JANTParser::MulDivExprContext *ctx)
     return value;
 }*/
 
-/*antlrcpp::Any Pass2Visitor::visitIntegerConst(JANTParser::IntegerConstContext *ctx)
+antlrcpp::Any Pass2Visitor::visitIntegerConst(JANTParser::IntegerConstContext *ctx)
 {
     // Emit a load constant instruction.
-    j_file << "\tldc\t" << ctx->getText() << endl;
+    j_file << "\t\tldc\t" << ctx->getText() << endl;
 
     return visitChildren(ctx);
-}*/
+}
 
-/*antlrcpp::Any Pass2Visitor::visitFloatConst(JANTParser::FloatConstContext *ctx)
+antlrcpp::Any Pass2Visitor::visitFloatConst(JANTParser::FloatConstContext *ctx)
 {
     // Emit a load constant instruction.
-    j_file << "\tldc\t" << ctx->getText() << endl;
+    j_file << "\t\tldc\t" << ctx->getText() << endl;
 
     return visitChildren(ctx);
-}*/
+}
 
 antlrcpp::Any Pass2Visitor::visitRelExpr(JANTParser::RelExprContext *ctx){
 
 	auto value = visit(ctx->expr(0));
-	//TypeSpec *type1 = ctx->expr(0)->type;
+	TypeSpec *type1 = ctx->expr(0)->type;
 
 	cout << "===VisitRelExpr" + ctx->getText() << endl;
 
-	//visit(ctx->expr(1));
-	//TypeSpec *type2 = ctx->expr(1)->type;
-	TypeSpec *type1 = ctx->expr(0)->type;
+	visit(ctx->expr(1));
 	TypeSpec *type2 = ctx->expr(1)->type;
-
-    bool integer_mode =    (type1 == Predefined::integer_type)
-                        && (type2 == Predefined::integer_type);
-    bool real_mode    =    (type1 == Predefined::real_type)
-                        && (type2 == Predefined::real_type);
+	//TypeSpec *type1 = ctx->expr(0)->type;
+	//TypeSpec *type2 = ctx->expr(1)->type;
 
 	string rel = ctx->rel_operation()->getText();
 
 	if (rel == "<")
 	{
-		j_file << "\tif_icmpge\tL" << curr << endl;
+		j_file << "\t\tif_icmpge\tL00" << curr << endl;
 	}
 	else if (rel == "<=")
 	{
-		j_file << "\tif_icmpgt\tL" << curr << endl;
+		j_file << "\t\tif_icmpgt\tL00" << curr << endl;
 	}
 	else if (rel == ">")
 	{
-		j_file << "\tif_icmple\tL" << curr << endl;
+		j_file << "\t\tif_icmple\tL00" << curr << endl;
 	}
 	else if (rel == ">=")
 	{
-		j_file << "\tif_icmplt\tL" << curr << endl;
+		j_file << "\t\tif_icmplt\tL00" << curr << endl;
 	}
 	else if (rel == "!=")
 	{
-		j_file << "\tif_icmpne\tL" << curr << endl;
+		j_file << "\t\tif_icmpne\tL00" << curr << endl;
 	}
 	else if (rel == "==")
 	{
-		j_file << "\tif_icmpeq\tL" << curr << endl;
+		j_file << "\t\tif_icmpeq\tL00" << curr << endl;
 	}
+
+	j_file << "\t\tL00" << loopcount++ << endl;
+	j_file << "\t\ticonst_0" << endl;
+	j_file << "\t\tgoto\tL00" << loopcount << endl;
+	j_file << "L00" << loopcount-1 << ":" << endl;
+	j_file << "\t\ticonst_1" << endl;
+	j_file << "L00" << loopcount << ":" << endl;
+	j_file << "\t\tifeq\tL00" << ++loopcount << endl;
 
 	return value;
 }
@@ -350,6 +354,8 @@ antlrcpp::Any Pass2Visitor::visitRelExpr(JANTParser::RelExprContext *ctx){
 		j_file << "\tinvokestatic \t java/lang/Integer.valueof(" << ctx->variable(i)->type << ")Ljava/lang/";
 		if(ctx->variable(i) == "I")
 			 j_file << "Integer" << endl;
+		else if(ctx->variable(i) == "C")
+			 j_file << "Char" << endl;
 
 		j_file << "\taastore\t" << endl;
 
@@ -370,9 +376,10 @@ antlrcpp::Any Pass2Visitor::visitPrintTxt(JANTParser::PrintTxtContext *ctx){
 
 	j_file << "\tgetstatic\t java/lang/System/out Ljava/io/PrintStream;" << endl;
 	auto value = visitChildren(ctx);
-	j_file << "\t ldc \t" << ctx->str_id()->getText() << endl;
-	j_file << "\tinvokevirtual java/io/PrintStream.println(ljaval/lang/String;)V" << endl;
+	j_file << "\tldc\t" << ctx->str_id()->getText() << endl;
+	j_file << "\tinvokevirtual java/io/PrintStream.println(lJANTl/lang/String;)V" << endl;
 
 	return value;
 }
+
 

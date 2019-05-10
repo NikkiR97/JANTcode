@@ -85,7 +85,7 @@ public:
 
     virtual antlrcpp::Any visitPrintTxt(JANTParser::PrintTxtContext *context) = 0;
 
-    virtual antlrcpp::Any visitIdentifier(JANTParser::IdentifierContext *context) = 0;
+    virtual antlrcpp::Any visitVariableExpr(JANTParser::VariableExprContext *context) = 0;
 
     virtual antlrcpp::Any visitDatatypeExpr(JANTParser::DatatypeExprContext *context) = 0;
 
@@ -102,6 +102,8 @@ public:
     virtual antlrcpp::Any visitStr_id(JANTParser::Str_idContext *context) = 0;
 
     virtual antlrcpp::Any visitIntegerConst(JANTParser::IntegerConstContext *context) = 0;
+
+    virtual antlrcpp::Any visitFloatConst(JANTParser::FloatConstContext *context) = 0;
 
     virtual antlrcpp::Any visitCharConst(JANTParser::CharConstContext *context) = 0;
 
