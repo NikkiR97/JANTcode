@@ -97,13 +97,13 @@ antlrcpp::Any Pass1Visitor::visitDeclarations(JANTParser::DeclarationsContext *c
     return value;
 }
 
-/*antlrcpp::Any Pass1Visitor::visitDecl(JANTParser::DeclContext *ctx)
+antlrcpp::Any Pass1Visitor::visitDecl(JANTParser::DeclContext *ctx)
 {
 //    cout << "=== visitDecl: " + ctx->getText() << endl;
 
     j_file << "\n; " << ctx->getText() << "\n" << endl;
     return visitChildren(ctx);
-}*/
+}
 
 antlrcpp::Any Pass1Visitor::visitVar_list(JANTParser::Var_listContext *ctx)
 {
@@ -112,21 +112,16 @@ antlrcpp::Any Pass1Visitor::visitVar_list(JANTParser::Var_listContext *ctx)
     variable_id_list.resize(0);
     //cout <<  "~~~~Exiting visitVar_list." << endl;
 
-
-    /*auto value = visitChildren(ctx);
-    int counter=0;
+    auto value = visitChildren(ctx);
 
    for(SymTabEntry *id : variable_id_list){
     	id-> set_typespec(type);
 
     	if(symtab_stack->get_current_nesting_level() == 1)
     		j_file <<  ".field private static" << id-> get_name() << " " << type_indicator << endl;
-    	counter=counter+1;
     }
 
-    indexer = counter+1;*/
-
-    return visitChildren(ctx);
+    return value;
 }
 
 antlrcpp::Any Pass1Visitor::visitVar_id(JANTParser::Var_idContext *ctx)
@@ -152,8 +147,8 @@ antlrcpp::Any Pass1Visitor::visitType_id(JANTParser::Type_idContext *ctx)
     //cout << "=== visitTypeId: " + ctx->getText() << endl;
 	cout << "=== visitTypeId" << endl;
 
-    //TypeSpec *type;
-    //string type_indicator;
+    TypeSpec *type;
+    string type_indicator;
 
 	//will overwrite type_name and type_indicator everytime so by the time it reaches the varList method, assingments can be done correctly.
 
@@ -179,6 +174,7 @@ antlrcpp::Any Pass1Visitor::visitType_id(JANTParser::Type_idContext *ctx)
     }
 
     cout << ">>>ExitTypeid" << endl;
+    return visitChildren(ctx);
 
     /*for (SymTabEntry *id : variable_id_list) {
         id->set_typespec(type);
@@ -313,7 +309,7 @@ antlrcpp::Any Pass1Visitor::visitNumber(JANTParser::NumberContext *ctx)
 
 //}
 
-/*virtual antlrcpp::Any Pass1Visitor::visitAssignmentStmt(JANTParser::AssignmentStmtContext *ctx){
+antlrcpp::Any Pass1Visitor::visitAssignmentStmt(JANTParser::AssignmentStmtContext *ctx){
 
     auto value = visit(ctx->expr());
 
@@ -335,7 +331,7 @@ antlrcpp::Any Pass1Visitor::visitNumber(JANTParser::NumberContext *ctx)
 
     return value;
 
-}*/
+}
 
 /*antlrcpp::Any Pass1Visitor::visitNumberConst(JANTParser::NumberConstContext *ctx){
 

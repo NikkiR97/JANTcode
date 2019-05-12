@@ -38,7 +38,7 @@ public:
     antlrcpp::Any visitProgram(JANTParser::ProgramContext *ctx) override;
     antlrcpp::Any visitHeader(JANTParser::HeaderContext *ctx) override;
     antlrcpp::Any visitDeclarations(JANTParser::DeclarationsContext *ctx) override;
-    //antlrcpp::Any visitDecl(JANTParser::DeclContext *ctx) override;
+    antlrcpp::Any visitDecl(JANTParser::DeclContext *ctx) override;
     antlrcpp::Any visitVar_list(JANTParser::Var_listContext *ctx) override;
     antlrcpp::Any visitVar_id(JANTParser::Var_idContext *ctx) override;
     antlrcpp::Any visitType_id(JANTParser::Type_idContext *ctx) override;
@@ -61,7 +61,7 @@ public:
     //antlrcpp::Any visitParam_list(JANTParser::Param_listContext *ctx) override; //new
     //antlrcpp::Any visitParam(JANTParser::ParamContext *ctx) override; //new
 
-    //antlrcpp::Any visitAssignmentStmt(JANTParser::AssignmentStmtContext *ctx) override;
+    antlrcpp::Any visitAssignmentStmt(JANTParser::AssignmentStmtContext *ctx) override;
     //antlrcpp::Any visitNumberConst(JANTParser::NumberConstContext *ctx) override;
     antlrcpp::Any visitDatatypeExpr(JANTParser::DatatypeExprContext *ctx) override;
 
