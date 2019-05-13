@@ -1,10 +1,11 @@
-.class public hello2
+.class public hellothere
 .super java/lang/Object
 
 .field private static _runTimer LRunTimer;
 .field private static _standardIn LPascalTextIn;
 .field private static i I
 .field private static j I
+.field private static k I
 
 .method public <init>()V
 
@@ -21,82 +22,81 @@
 	new RunTimer
 	dup
 	invokenonvirtual RunTimer/<init>()V
-	putstatic        hello2/_runTimer LRunTimer;
+	putstatic        hellothere/_runTimer LRunTimer;
 	new PascalTextIn
 	dup
 	invokenonvirtual PascalTextIn/<init>()V
-	putstatic        hello2/_standardIn LPascalTextIn;
+	putstatic        hellothere/_standardIn LPascalTextIn;
+
+; i=7
+
 		ldc	7
-		putstatic	hello2/i I
+		putstatic	hellothere/i I
+
+; j=1+1
+
 		ldc	1
 		ldc	1
-	iadd
-		putstatic	hello2/j I
+		iadd
+		putstatic	hellothere/j I
+
+; k=7*(j+5)
+
+		ldc	7
+		getstatic	hellothere/j I
+		ldc	5
+		iadd
+		imul
+		putstatic	hellothere/k I
 
 ; WHEN(j==2){j=6;}WHENIF(j==1){j=5;}OTHERWISE{j=4;}
 
 
 ; WHEN(j==2){j=6;}
 
-		getstatic	hello2/j I
+		getstatic	hellothere/j I
 		ldc	2
 		if_icmpeq	L001
-		L002
-		iconst_0
-		goto	L003
-L002:
-		iconst_1
-L003:
-		ifeq	L004
-		ldc	6
-		putstatic	hello2/j I
-		goto	L0:
-L1:
+		goto	L000
+L001:
 
 ; WHENIF(j==1){j=5;}
 
-		getstatic	hello2/j I
+		getstatic	hellothere/j I
 		ldc	1
-		if_icmpeq	L004
-		L005
-		iconst_0
-		goto	L006
-L005:
-		iconst_1
-L006:
-		ifeq	L007
+		if_icmpeq	L002
+
+; j=5
+
 		ldc	5
-		putstatic	hello2/j I
-		goto	L0:
-L4:
+		putstatic	hellothere/j I
+		goto	L000
+L002:
 
 ; OTHERWISE{j=4;}
 
+
+; j=4
+
 		ldc	4
-		putstatic	hello2/j I
-L0:
+		putstatic	hellothere/j I
+L000:
 
 ; LOOP(i!=1){i=i-1;}
 
-		getstatic	hello2/i I
+L003:
+		getstatic	hellothere/i I
 		ldc	1
-		if_icmpne	L008
-		L009
-		iconst_0
-		goto	L0010
-L009:
-		iconst_1
-L0010:
-		ifeq	L0011
-		goto	L007
-L8:
+		if_icmpne	L004
+		goto	L003
+L004:
 
-;PrintTxt(`Hello World`)
+;PrintTxt("Hello World")
 	getstatic	 java/lang/System/out Ljava/io/PrintStream;
-	ldc	`Hello World`
-	invokevirtual java/io/PrintStream.println(lJANTl/lang/String;)V
+	ldc	"Hello World"
+	invokevirtual java/io/PrintStream.println(Ljava/lang/String;)V
 
-	getstatic     hello2/_runTimer LRunTimer;
+	getstatic     hellothere/_runTimer LRunTimer;
 	invokevirtual RunTimer.printElapsedTime()V
 
 	return
