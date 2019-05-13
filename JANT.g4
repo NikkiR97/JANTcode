@@ -92,7 +92,7 @@ WHENIF	: 'WHENIF' ;
 OTHERWISE : 'OTHERWISE' ;
 PRINTSTR : 'PrintStr' ;
 PRINTXT	 : 'PrintTxt' ;
-STRING : '`'('``' |~ ('`')*)'`' ;
+STRING : '"'('""' |~ ('"')*)'"' ;
 
 IDENTIFIER : [a-zA-Z][a-zA-Z0-9]* ;
 INTEGER    : [0-9] ;

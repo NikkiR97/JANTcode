@@ -78,6 +78,8 @@ antlrcpp::Any Pass2Visitor::visitStmt(JANTParser::StmtContext *ctx)
 antlrcpp::Any Pass2Visitor::visitAssignment_stmt(JANTParser::Assignment_stmtContext *ctx)
 {
 	cout << "===VisitAssignmentStmt" <<endl;
+	j_file << endl << "; " + ctx->getText() << endl << endl;
+
     auto value = visit(ctx->expr());
 
     string type_indicator =
@@ -100,14 +102,14 @@ antlrcpp::Any Pass2Visitor::visitLoop_stmt(JANTParser::Loop_stmtContext *ctx)
     string end = to_string(loopcount);
     curr = end;
     loopcount++;
-    j_file << endl << "; " + ctx->getText() << endl << endl;
 
-    //j_file << "\tL00" << start << ":" << endl << endl;
+    j_file << endl << "; " + ctx->getText() << endl << endl;
+    j_file << "L00" << start << ":" << endl;
 
     auto value = visit(ctx->expr());
     //visit(ctx->Compound_stmt());
     j_file << "\t\tgoto\tL00" << start << endl;
-    j_file << "L" << curr << ":" << endl;
+    j_file << "L00" << curr << ":" << endl;
 
     return value;
 }
@@ -126,9 +128,10 @@ antlrcpp::Any Pass2Visitor::visitWhenall_stmt(JANTParser::Whenall_stmtContext *c
 	  j_file << endl
 			 << "; " + ctx->getText() << endl
 			 << endl;
+	  //j_file << "L00" << loopcount << ":" << endl;
 	  end= to_string(loopcount++);
 	  auto value = visitChildren(ctx);
-	  j_file << "L" << end << ":" << endl;
+	  j_file << "L00" << end << ":" << endl;
 	  return value;
 }
 
@@ -138,9 +141,9 @@ antlrcpp::Any Pass2Visitor::visitWhen_stmt(JANTParser::When_stmtContext *ctx){
 				 << endl;
 	  curr= to_string(loopcount);
 	  loopcount++;
-	  auto value = visitChildren(ctx);
-	  j_file << "\t\tgoto\tL" << end << ":" << endl;
-	  j_file << "L" << curr << ":" << endl;
+	  auto value = visitChildren(ctx->expr());
+	  j_file << "\t\tgoto\tL00" << end << endl;
+	  j_file << "L00" << curr << ":" << endl;
 
    return value;
 }
@@ -152,8 +155,8 @@ antlrcpp::Any Pass2Visitor::visitWhenif_stmt(JANTParser::Whenif_stmtContext *ctx
 	  curr= to_string(loopcount);
 	  loopcount++;
 	  auto value = visitChildren(ctx);
-	  j_file << "\t\tgoto\tL" << end << ":" << endl;
-	  j_file << "L" << curr << ":" << endl;
+	  j_file << "\t\tgoto\tL00" << end << endl;
+	  j_file << "L00" << curr << ":" << endl;
 
   return value;
 }
@@ -162,7 +165,10 @@ antlrcpp::Any Pass2Visitor::visitOtherwise(JANTParser::OtherwiseContext *ctx){
     j_file  << endl
     		<< "; " + ctx->getText() <<endl
 			<< endl;
+    //curr= to_string(loopcount);
+    //loopcount++;
 	auto value = visitChildren(ctx);
+	//j_file << "L00" << curr << ":" << endl;
 	return value;
 }
 
@@ -195,7 +201,7 @@ antlrcpp::Any Pass2Visitor::visitAddSubExpr(JANTParser::AddSubExprContext *ctx)
     }
 
     // Emit an add or subtract instruction.
-    j_file << "\t" << opcode << endl;
+    j_file << "\t\t" << opcode << endl;
 
     return value;
 }
@@ -231,7 +237,7 @@ antlrcpp::Any Pass2Visitor::visitMulDivExpr(JANTParser::MulDivExprContext *ctx)
     }
 
     // Emit a multiply or divide instruction.
-    j_file << "\t" << opcode << endl;
+    j_file << "\t\t" << opcode << endl;
 
     return value;
 }
@@ -326,13 +332,13 @@ antlrcpp::Any Pass2Visitor::visitRelExpr(JANTParser::RelExprContext *ctx){
 		j_file << "\t\tif_icmpeq\tL00" << curr << endl;
 	}
 
-	j_file << "\t\tL00" << loopcount++ << endl;
-	j_file << "\t\ticonst_0" << endl;
-	j_file << "\t\tgoto\tL00" << loopcount << endl;
-	j_file << "L00" << loopcount-1 << ":" << endl;
-	j_file << "\t\ticonst_1" << endl;
-	j_file << "L00" << loopcount << ":" << endl;
-	j_file << "\t\tifeq\tL00" << ++loopcount << endl;
+	//j_file << "\t\tL00" << loopcount++ << endl;
+	//j_file << "\t\ticonst_0" << endl;
+	//j_file << "\t\tgoto\tL00" << loopcount << endl;
+	//j_file << "L00" << loopcount-1 << ":" << endl;
+	//j_file << "\t\ticonst_1" << endl;
+	//j_file << "L00" << loopcount << ":" << endl;
+	//j_file << "\t\tifeq\tL00" << ++loopcount << endl;
 
 	return value;
 }
@@ -377,7 +383,7 @@ antlrcpp::Any Pass2Visitor::visitPrintTxt(JANTParser::PrintTxtContext *ctx){
 	j_file << "\tgetstatic\t java/lang/System/out Ljava/io/PrintStream;" << endl;
 	auto value = visitChildren(ctx);
 	j_file << "\tldc\t" << ctx->str_id()->getText() << endl;
-	j_file << "\tinvokevirtual java/io/PrintStream.println(lJANTl/lang/String;)V" << endl;
+	j_file << "\tinvokevirtual java/io/PrintStream.println(Ljava/lang/String;)V" << endl;
 
 	return value;
 }
