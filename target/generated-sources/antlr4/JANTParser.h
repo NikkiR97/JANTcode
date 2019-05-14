@@ -19,22 +19,23 @@ public:
     T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, PROGRAM = 7, 
     MAIN = 8, FUNC = 9, START = 10, TERMINATE = 11, BEGIN = 12, END = 13, 
     VAR = 14, LOOP = 15, WHEN = 16, WHENIF = 17, OTHERWISE = 18, PRINTSTR = 19, 
-    PRINTXT = 20, STRING = 21, IDENTIFIER = 22, INTEGER = 23, FLOAT = 24, 
-    CHAR = 25, MUL_operation = 26, DIV_operation = 27, ADD_operation = 28, 
-    SUB_operation = 29, EQ_operation = 30, EQEQ_operation = 31, NE_operation = 32, 
-    LT_operation = 33, LE_operation = 34, GT_operation = 35, GE_operation = 36, 
-    NEWLINE = 37, WS = 38
+    PRINTXT = 20, STRING = 21, RETURN = 22, IDENTIFIER = 23, INTEGER = 24, 
+    FLOAT = 25, CHAR = 26, MUL_operation = 27, DIV_operation = 28, ADD_operation = 29, 
+    SUB_operation = 30, EQ_operation = 31, EQEQ_operation = 32, NE_operation = 33, 
+    LT_operation = 34, LE_operation = 35, GT_operation = 36, GE_operation = 37, 
+    NEWLINE = 38, WS = 39
   };
 
   enum {
-    RuleProgram = 0, RuleHeader = 1, RuleFunc_list = 2, RuleFunc = 3, RuleFunc_name = 4, 
+    RuleProgram = 0, RuleHeader = 1, RuleFunc_list = 2, RuleFunct = 3, RuleFunct_name = 4, 
     RuleParam_list = 5, RuleParam = 6, RuleMain = 7, RuleDeclarations = 8, 
     RuleVar_list = 9, RuleVar_id = 10, RuleType_id = 11, RuleStmt = 12, 
-    RuleCompound_stmt = 13, RuleFuncCall_stmt = 14, RuleAssignment_stmt = 15, 
-    RuleLoop_stmt = 16, RuleWhenall_stmt = 17, RuleWhen_stmt = 18, RuleWhenif_stmt = 19, 
-    RuleOtherwise = 20, RulePrintStr = 21, RulePrintTxt = 22, RuleExpr = 23, 
-    RuleVariable = 24, RuleStr_id = 25, RuleDatatype = 26, RuleSign = 27, 
-    RuleMul_div_operation = 28, RuleAdd_sub_operation = 29, RuleRel_operation = 30
+    RuleCompound_stmt = 13, RuleFuncCall_stmt = 14, RuleFunct_return_stmt = 15, 
+    RuleAssignment_stmt = 16, RuleLoop_stmt = 17, RuleWhenall_stmt = 18, 
+    RuleWhen_stmt = 19, RuleWhenif_stmt = 20, RuleOtherwise = 21, RulePrintStr = 22, 
+    RulePrintTxt = 23, RuleExpr = 24, RuleVariable = 25, RuleStr_id = 26, 
+    RuleDatatype = 27, RuleSign = 28, RuleMul_div_operation = 29, RuleAdd_sub_operation = 30, 
+    RuleRel_operation = 31
   };
 
   JANTParser(antlr4::TokenStream *input);
@@ -50,8 +51,8 @@ public:
   class ProgramContext;
   class HeaderContext;
   class Func_listContext;
-  class FuncContext;
-  class Func_nameContext;
+  class FunctContext;
+  class Funct_nameContext;
   class Param_listContext;
   class ParamContext;
   class MainContext;
@@ -62,6 +63,7 @@ public:
   class StmtContext;
   class Compound_stmtContext;
   class FuncCall_stmtContext;
+  class Funct_return_stmtContext;
   class Assignment_stmtContext;
   class Loop_stmtContext;
   class Whenall_stmtContext;
@@ -113,8 +115,8 @@ public:
   public:
     Func_listContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    std::vector<FuncContext *> func();
-    FuncContext* func(size_t i);
+    std::vector<FunctContext *> funct();
+    FunctContext* funct(size_t i);
 
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
@@ -123,25 +125,30 @@ public:
 
   Func_listContext* func_list();
 
-  class  FuncContext : public antlr4::ParserRuleContext {
+  class  FunctContext : public antlr4::ParserRuleContext {
   public:
-    FuncContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    FunctContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *FUNC();
-    Func_nameContext *func_name();
+    Funct_nameContext *funct_name();
     Param_listContext *param_list();
-    Compound_stmtContext *compound_stmt();
+    antlr4::tree::TerminalNode *BEGIN();
+    DeclarationsContext *declarations();
+    std::vector<StmtContext *> stmt();
+    StmtContext* stmt(size_t i);
+    Funct_return_stmtContext *funct_return_stmt();
+    antlr4::tree::TerminalNode *END();
 
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
    
   };
 
-  FuncContext* func();
+  FunctContext* funct();
 
-  class  Func_nameContext : public antlr4::ParserRuleContext {
+  class  Funct_nameContext : public antlr4::ParserRuleContext {
   public:
-    Func_nameContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    Funct_nameContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *IDENTIFIER();
 
@@ -150,7 +157,7 @@ public:
    
   };
 
-  Func_nameContext* func_name();
+  Funct_nameContext* funct_name();
 
   class  Param_listContext : public antlr4::ParserRuleContext {
   public:
@@ -288,6 +295,15 @@ public:
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
   };
 
+  class  FunctReturnStmtContext : public StmtContext {
+  public:
+    FunctReturnStmtContext(StmtContext *ctx);
+
+    Funct_return_stmtContext *funct_return_stmt();
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+  };
+
   class  CompoundStmtContext : public StmtContext {
   public:
     CompoundStmtContext(StmtContext *ctx);
@@ -363,8 +379,8 @@ public:
   public:
     FuncCall_stmtContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    Func_nameContext *func_name();
-    Var_listContext *var_list();
+    Funct_nameContext *funct_name();
+    VariableContext *variable();
 
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
@@ -372,6 +388,20 @@ public:
   };
 
   FuncCall_stmtContext* funcCall_stmt();
+
+  class  Funct_return_stmtContext : public antlr4::ParserRuleContext {
+  public:
+    Funct_return_stmtContext(antlr4::ParserRuleContext *parent, size_t invokingState);
+    virtual size_t getRuleIndex() const override;
+    antlr4::tree::TerminalNode *RETURN();
+    VariableContext *variable();
+
+
+    virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;
+   
+  };
+
+  Funct_return_stmtContext* funct_return_stmt();
 
   class  Assignment_stmtContext : public antlr4::ParserRuleContext {
   public:
@@ -469,8 +499,8 @@ public:
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *PRINTSTR();
     Str_idContext *str_id();
-    std::vector<VariableContext *> variable();
-    VariableContext* variable(size_t i);
+    std::vector<ExprContext *> expr();
+    ExprContext* expr(size_t i);
 
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;

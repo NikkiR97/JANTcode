@@ -29,9 +29,9 @@ public:
 
     virtual antlrcpp::Any visitFunc_list(JANTParser::Func_listContext *context) = 0;
 
-    virtual antlrcpp::Any visitFunc(JANTParser::FuncContext *context) = 0;
+    virtual antlrcpp::Any visitFunct(JANTParser::FunctContext *context) = 0;
 
-    virtual antlrcpp::Any visitFunc_name(JANTParser::Func_nameContext *context) = 0;
+    virtual antlrcpp::Any visitFunct_name(JANTParser::Funct_nameContext *context) = 0;
 
     virtual antlrcpp::Any visitParam_list(JANTParser::Param_listContext *context) = 0;
 
@@ -57,6 +57,8 @@ public:
 
     virtual antlrcpp::Any visitFuncCallStmt(JANTParser::FuncCallStmtContext *context) = 0;
 
+    virtual antlrcpp::Any visitFunctReturnStmt(JANTParser::FunctReturnStmtContext *context) = 0;
+
     virtual antlrcpp::Any visitDeclaration(JANTParser::DeclarationContext *context) = 0;
 
     virtual antlrcpp::Any visitPrintStrStmt(JANTParser::PrintStrStmtContext *context) = 0;
@@ -68,6 +70,8 @@ public:
     virtual antlrcpp::Any visitCompound_stmt(JANTParser::Compound_stmtContext *context) = 0;
 
     virtual antlrcpp::Any visitFuncCall_stmt(JANTParser::FuncCall_stmtContext *context) = 0;
+
+    virtual antlrcpp::Any visitFunct_return_stmt(JANTParser::Funct_return_stmtContext *context) = 0;
 
     virtual antlrcpp::Any visitAssignment_stmt(JANTParser::Assignment_stmtContext *context) = 0;
 

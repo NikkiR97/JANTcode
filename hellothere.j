@@ -49,10 +49,10 @@
 		imul
 		putstatic	hellothere/k I
 
-; WHEN(j==2){j=6;}WHENIF(j==1){j=5;}OTHERWISE{j=4;}
+; WHEN(j==2){j=3;}WHENIF(j==1){j=5;}OTHERWISE{j=4;}
 
 
-; WHEN(j==2){j=6;}
+; WHEN(j==2){j=3;}
 
 		getstatic	hellothere/j I
 		ldc	2
@@ -95,6 +95,21 @@ L004:
 	getstatic	 java/lang/System/out Ljava/io/PrintStream;
 	ldc	"Hello World"
 	invokevirtual java/io/PrintStream.println(Ljava/lang/String;)V
+
+;PrintStr("The value of j is %i. \n",j)
+		getstatic	 java/lang/System/out Ljava/io/PrintStream;
+		ldc	"The value of j is %i. \n"
+		iconst_1
+		anewarray 	java/lang/Object
+	dup	
+	iconst_0	
+		getstatic	hellothere/j I
+		getstatic 	 FormatTest/j I
+		 ldc 6
+		invokestatic	 java/lang/Integer.valueOf(I)Ljava/lang/Integer;
+	aastore	
+	invokevirtual	 java/io/PrintStream.printf(Ljava/lang/String;[Ljava/lang/Object;)Ljava/io/PrintStream;
+	pop	
 
 	getstatic     hellothere/_runTimer LRunTimer;
 	invokevirtual RunTimer.printElapsedTime()V

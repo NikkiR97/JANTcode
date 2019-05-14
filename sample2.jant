@@ -27,6 +27,7 @@ MAIN
 	};
 	
 	PrintTxt("Hello World");
+	PrintStr("The value of j is %i. \n",j);
 }
 
 TERMINATE

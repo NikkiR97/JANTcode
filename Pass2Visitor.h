@@ -24,6 +24,12 @@ private:
     string curr;
     string end;
 
+    vector<string> FnctVars;
+    vector<string> FnctVarTypes;
+    int param_count;
+    string ReturnType;
+    string variable_type;
+
 public:
 	Pass2Visitor(ostream& j_file);
     virtual ~Pass2Visitor();
@@ -50,17 +56,27 @@ public:
 
     //antlrcpp::Any visitCompound_stmt(JANTParser::Compound_stmtContext *ctx) override; //new
 
-    //antlrcpp::Any visitFuncCall_stmt(JANTParser::FuncCall_stmtContext *ctx) override; //new
+    antlrcpp::Any visitFunct(JANTParser::FunctContext *ctx) override; //Function_def
+    antlrcpp::Any visitFuncCall_stmt(JANTParser::FuncCall_stmtContext *ctx) override; //FunctionCall
+    antlrcpp::Any visitFunct_name(JANTParser::Funct_nameContext *ctx) override; //FuncName
+    antlrcpp::Any visitFunct_return_stmt(JANTParser::Funct_return_stmtContext *ctx) override; //RetType
+    antlrcpp::Any visitParam_list(JANTParser::Param_listContext *ctx) override; //Function_def_parms
+	antlrcpp::Any visitParam(JANTParser::ParamContext *ctx) override; //FuncParam
+
+
+
     antlrcpp::Any visitLoop_stmt(JANTParser::Loop_stmtContext *ctx) override; //new
     //antlrcpp::Any visitWhen_stmt(JANTParser::When_stmtContext *ctx) override; //new
 
-    antlrcpp::Any visitWhenall_stmt(JANTParser::Whenall_stmtContext *ctx) override;
-    antlrcpp::Any visitWhen_stmt(JANTParser::When_stmtContext *ctx) override;
-    antlrcpp::Any visitWhenif_stmt(JANTParser::Whenif_stmtContext *ctx) override;
-    antlrcpp::Any visitOtherwise(JANTParser::OtherwiseContext *ctx) override;
+    antlrcpp::Any visitWhenall_stmt(JANTParser::Whenall_stmtContext *ctx) override; //new
+    antlrcpp::Any visitWhen_stmt(JANTParser::When_stmtContext *ctx) override; //new
+    antlrcpp::Any visitWhenif_stmt(JANTParser::Whenif_stmtContext *ctx) override;//new
+    antlrcpp::Any visitOtherwise(JANTParser::OtherwiseContext *ctx) override; //new
 
-    //antlrcpp::Any visitPrintStrStmt(JANTParser::PrintStrStmtContext *ctx) override;
-    antlrcpp::Any visitPrintTxt(JANTParser::PrintTxtContext *ctx) override;
+    antlrcpp::Any visitPrintStr(JANTParser::PrintStrContext *ctx) override; //new
+    antlrcpp::Any visitPrintTxt(JANTParser::PrintTxtContext *ctx) override; //new
+    //antlrcpp::Any visitVariable(JANTParser::VariableContext *ctx) override;
+
 };
 
 

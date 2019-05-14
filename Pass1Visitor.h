@@ -28,7 +28,6 @@ private:
 	string name;
     ofstream j_file;
 
-
 public:
     Pass1Visitor();
     virtual ~Pass1Visitor();

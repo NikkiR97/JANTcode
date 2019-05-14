@@ -31,11 +31,11 @@ public:
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitFunc(JANTParser::FuncContext *ctx) override {
+  virtual antlrcpp::Any visitFunct(JANTParser::FunctContext *ctx) override {
     return visitChildren(ctx);
   }
 
-  virtual antlrcpp::Any visitFunc_name(JANTParser::Func_nameContext *ctx) override {
+  virtual antlrcpp::Any visitFunct_name(JANTParser::Funct_nameContext *ctx) override {
     return visitChildren(ctx);
   }
 
@@ -87,6 +87,10 @@ public:
     return visitChildren(ctx);
   }
 
+  virtual antlrcpp::Any visitFunctReturnStmt(JANTParser::FunctReturnStmtContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
   virtual antlrcpp::Any visitDeclaration(JANTParser::DeclarationContext *ctx) override {
     return visitChildren(ctx);
   }
@@ -108,6 +112,10 @@ public:
   }
 
   virtual antlrcpp::Any visitFuncCall_stmt(JANTParser::FuncCall_stmtContext *ctx) override {
+    return visitChildren(ctx);
+  }
+
+  virtual antlrcpp::Any visitFunct_return_stmt(JANTParser::Funct_return_stmtContext *ctx) override {
     return visitChildren(ctx);
   }
 

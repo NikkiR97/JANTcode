@@ -19,11 +19,11 @@ public:
     T__0 = 1, T__1 = 2, T__2 = 3, T__3 = 4, T__4 = 5, T__5 = 6, PROGRAM = 7, 
     MAIN = 8, FUNC = 9, START = 10, TERMINATE = 11, BEGIN = 12, END = 13, 
     VAR = 14, LOOP = 15, WHEN = 16, WHENIF = 17, OTHERWISE = 18, PRINTSTR = 19, 
-    PRINTXT = 20, STRING = 21, IDENTIFIER = 22, INTEGER = 23, FLOAT = 24, 
-    CHAR = 25, MUL_operation = 26, DIV_operation = 27, ADD_operation = 28, 
-    SUB_operation = 29, EQ_operation = 30, EQEQ_operation = 31, NE_operation = 32, 
-    LT_operation = 33, LE_operation = 34, GT_operation = 35, GE_operation = 36, 
-    NEWLINE = 37, WS = 38
+    PRINTXT = 20, STRING = 21, RETURN = 22, IDENTIFIER = 23, INTEGER = 24, 
+    FLOAT = 25, CHAR = 26, MUL_operation = 27, DIV_operation = 28, ADD_operation = 29, 
+    SUB_operation = 30, EQ_operation = 31, EQEQ_operation = 32, NE_operation = 33, 
+    LT_operation = 34, LE_operation = 35, GT_operation = 36, GE_operation = 37, 
+    NEWLINE = 38, WS = 39
   };
 
   JANTLexer(antlr4::CharStream *input);

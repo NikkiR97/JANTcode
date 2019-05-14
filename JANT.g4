@@ -9,10 +9,10 @@ program : START header (|func_list) main TERMINATE ;
 header :  IDENTIFIER ';' ;
 
 
-func_list  : func (func)* ;
+func_list  : funct (funct)* ;
 
-func	   : FUNC func_name '(' param_list ')' compound_stmt;
-func_name  : IDENTIFIER ;
+funct	   : FUNC funct_name '(' param_list ')' BEGIN declarations stmt ';' ( stmt ';')* funct_return_stmt END;
+funct_name  : IDENTIFIER ;
 param_list : param (',' param)*;
 param	   : (|'Ref') variable 'As' type_id;
 
@@ -31,6 +31,7 @@ stmt : compound_stmt    # compoundStmt
      | loop_stmt   (|';')# loopStmt 
      | whenall_stmt   (|';')  # whenStmt
      | funcCall_stmt (|';')	# funcCallStmt
+     | funct_return_stmt (|';') # functReturnStmt
      | declarations	(|';')	#declaration
      | printStr (|';') # printStrStmt
      | printTxt (|';') # printTxtStmt
@@ -39,7 +40,8 @@ stmt : compound_stmt    # compoundStmt
      
    
 compound_stmt : BEGIN stmt ';' ( stmt ';')* END ;     
-funcCall_stmt   : func_name '(' var_list ')';     
+funcCall_stmt   : funct_name '(' variable ')';
+funct_return_stmt : RETURN variable ;     
 assignment_stmt : variable '=' expr ;
 loop_stmt  		: LOOP expr stmt ;
 
@@ -49,7 +51,7 @@ whenif_stmt     : WHENIF expr stmt;
 otherwise		: OTHERWISE stmt;
 
 
-printStr : PRINTSTR '(' str_id (',' variable)* ')'; 
+printStr : PRINTSTR '(' str_id (',' expr)* ')'; 
 printTxt : PRINTXT '(' str_id ')' ; 
 
 expr locals [ TypeSpec *type = nullptr ]
@@ -93,6 +95,7 @@ OTHERWISE : 'OTHERWISE' ;
 PRINTSTR : 'PrintStr' ;
 PRINTXT	 : 'PrintTxt' ;
 STRING : '"'('""' |~ ('"')*)'"' ;
+RETURN : 'return' ;
 
 IDENTIFIER : [a-zA-Z][a-zA-Z0-9]* ;
 INTEGER    : [0-9] ;

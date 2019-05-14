@@ -17,6 +17,8 @@ using namespace std;
 Pass2Visitor::Pass2Visitor(ostream& j_file): program_name(""), j_file(j_file)
 {
 	loopcount = 0;
+	param_count = 0;
+	variable_type = "";
 }
 
 Pass2Visitor::~Pass2Visitor() {}
@@ -249,7 +251,7 @@ antlrcpp::Any Pass2Visitor::visitVariableExpr(JANTParser::VariableExprContext *c
 
     string type_indicator = (type == Predefined::integer_type) ? "I"
                           : (type == Predefined::real_type)    ? "F"
-						  : (type == Predefined::real_type)    ? "C"
+						  : (type == Predefined::char_type)    ? "C"
                           :                                      "?";
 
     // Emit a field get instruction.
@@ -343,37 +345,47 @@ antlrcpp::Any Pass2Visitor::visitRelExpr(JANTParser::RelExprContext *ctx){
 	return value;
 }
 
-/*antlrcpp::Any Pass2Visitor::visitPrintStrStmt(JANTParser::PrintStrStmtContext *ctx){
+antlrcpp::Any Pass2Visitor::visitPrintStr(JANTParser::PrintStrContext *ctx){
 	j_file << endl << ';' << ctx->getText() << endl;
 
 	auto value = visit(ctx->str_id());
+	//auto value = visitChildren(ctx);
 
-	j_file << "\t JANT/lang/System/out Ljava/io/PrintStream;" << endl;
-	j_file << "\t ldc \t" << ctx->string()->getText() << endl;
-	j_file << "\t iconst_" << ctx->variable.size()-1 << endl;
-	j_file << "\t anrwarray \t java/lang/Object" << endl;
+	j_file << "\t\tgetstatic\t java/lang/System/out Ljava/io/PrintStream;" << endl;
 
-	for(int i=0; i<variable.size(); i++){
+	j_file << "\t\tldc\t" << ctx->str_id()->getText() << endl;
+	j_file << "\t\ticonst_" << ctx->expr().size() << endl;
+	j_file << "\t\tanewarray \tjava/lang/Object" << endl;
+
+	for(int i=0; i<(ctx->expr().size()); i++){
 		j_file << "\tdup\t" <<endl;
 		j_file << "\ticonst_" << i << "\t" <<endl;
-		j_file << "\t getstatic \t FormatTest/n " << ctx->variable(i)->type;
-		j_file << "\tinvokestatic \t java/lang/Integer.valueof(" << ctx->variable(i)->type << ")Ljava/lang/";
-		if(ctx->variable(i) == "I")
-			 j_file << "Integer" << endl;
-		else if(ctx->variable(i) == "C")
-			 j_file << "Char" << endl;
+		//j_file << "\tgetstatic \t FormatTest/n " << "I" << endl;
+
+		visit(ctx->expr(i));
+		TypeSpec *type = ctx->expr(i)->type;
+		if(type == Predefined::integer_type){
+			j_file << "\t\tgetstatic \t FormatTest/" << ctx->expr(i)->getText() << " I" << endl;
+			//j_file << "\t\t ldc " << ctx->expr(i)->depth() << endl;
+			j_file << "\t\tinvokestatic\t java/lang/Integer.valueOf(I)Ljava/lang/Integer;" << endl;}
+		else if(type == Predefined::real_type){
+			j_file << "\t\tgetstatic \t FormatTest/" << ctx->expr(i)->getText() << " F" << endl;
+			j_file << "\t\tinvokestatic\t java/lang/Float.valueOf(F)Ljava/lang/Float;" << endl;}
+		else if(type == Predefined::char_type){
+			j_file << "\t\tgetstatic \t FormatTest/" << ctx->expr(i)->getText() << " C" << endl;
+			j_file << "\t\tinvokestatic\t java/lang/Char.valueOf(C)Ljava/lang/Char;" << endl;}
+
 
 		j_file << "\taastore\t" << endl;
 
 	}
 
-	j_file << "\tinvokevirtual\t java/io/PrintStream.printf(Ljava/lang/String;[ljava/lang/Object;)Ljava/io/PrintStream;" << endl;
+	j_file << "\tinvokevirtual\t java/io/PrintStream.printf(Ljava/lang/String;[Ljava/lang/Object;)Ljava/io/PrintStream;" << endl;
 	j_file << "\tpop\t" << endl;
 
 
 	return value;
-}*/
-
+}
 
 antlrcpp::Any Pass2Visitor::visitPrintTxt(JANTParser::PrintTxtContext *ctx){
 
@@ -388,4 +400,97 @@ antlrcpp::Any Pass2Visitor::visitPrintTxt(JANTParser::PrintTxtContext *ctx){
 	return value;
 }
 
+antlrcpp::Any Pass2Visitor::visitFunct(JANTParser::FunctContext *ctx){
+	  FnctVars.clear();
+	  FnctVarTypes.clear();
 
+	  auto value = visitChildren(ctx);
+	  j_file << "\n\n.method\tpublic static";
+
+	  if(ReturnType == "V"){
+		  j_file << "\treturn" << endl;
+	  }
+
+	  j_file <<".limit stack 16" << endl;
+	  j_file << ".limit locals 16" << endl;
+
+	  j_file << ".end method" << endl;
+
+	  param_count++;
+
+	  return value;
+}
+
+/*antlrcpp::Any Pass2Visitor::visitFuncCall_stmt(JANTParser::FuncCall_stmtContext *ctx){
+	string FunctName = ctx->funct_name()->getText() ;
+	string variable;
+	string parameters = "";
+	TypeSpec *type_1;
+	auto value = 0;
+
+	for(int i=1; (ctx->expr(i) != NULL); i++){
+		value = visit(ctx->expr(i));
+		type_1 = ctx->expr(i)->type;
+		if(type1 == Predefined::integer_type){
+			parameters += "I";
+		}
+		else if(type1 == Predefined::integer_type){
+			parameters += "F";
+		}
+	}
+}*/
+
+antlrcpp::Any Pass2Visitor::visitFunct_name(JANTParser::Funct_nameContext *ctx){
+   string Funct_Name = ctx->IDENTIFIER()->toString();
+   j_file << Funct_Name;
+   auto value = visitChildren(ctx);
+
+   return value;
+}
+
+antlrcpp::Any Pass2Visitor::visitFunct_return_stmt(JANTParser::Funct_return_stmtContext *ctx){
+	auto value = visitChildren(ctx);
+	if(ReturnType == "I"){
+		j_file << "\tireturn" << endl;
+	}
+	else if (ReturnType == "F"){
+		j_file << "\tfreturn" << endl;
+	}
+	return value;
+}
+
+antlrcpp::Any Pass2Visitor::visitParam_list(JANTParser::Param_listContext *ctx){
+	j_file << "(";
+	auto value = visitChildren(ctx);
+	j_file << ")";
+	return value;
+}
+
+antlrcpp::Any Pass2Visitor::visitParam(JANTParser::ParamContext *ctx){
+	param_count++;
+
+	if(ctx->type_id()->IDENTIFIER()->toString == "int"){
+		variable_type = "I";
+	}
+	else if(ctx->type_id()->IDENTIFIER()->toString() == "real"){
+		variable_type = "F";
+	}
+	else{
+		variable_type = "?";
+	}
+
+	auto value = visitChildren(ctx);
+	string Current_Type;
+
+	if(ctx->type_id()->IDENTIFIER()->toString == "int"){
+		Current_Type = "I";
+	}
+	else if(ctx->type_id()->IDENTIFIER()->toString == "real"){
+		Current_Type = "F";
+	}
+	else{
+		Current_Type = "?";
+	}
+
+	j_file << Current_Type;
+}

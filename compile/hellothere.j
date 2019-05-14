@@ -96,6 +96,21 @@ L004:
 	ldc	"Hello World"
 	invokevirtual java/io/PrintStream.println(Ljava/lang/String;)V
 
+;PrintStr("The value of j is %i. \n",j)
+		getstatic	 java/lang/System/out Ljava/io/PrintStream;
+		ldc	"The value of j is %i. \n"
+		iconst_1
+		anewarray 	java/lang/Object
+	dup	
+	iconst_0	
+		getstatic	hellothere/j I
+		getstatic 	 FormatTest/j I
+		 ldc 6
+		invokestatic	 java/lang/Integer.valueOf(I)Ljava/lang/Integer;
+	aastore	
+	invokevirtual	 java/io/PrintStream.printf(Ljava/lang/String;[Ljava/lang/Object;)Ljava/io/PrintStream;
+	pop	
+
 	getstatic     hellothere/_runTimer LRunTimer;
 	invokevirtual RunTimer.printElapsedTime()V
 
