@@ -1,4 +1,10 @@
-START hello2;
+START hello3;
+
+FUNC calc(Ref a as Integer){
+Integer num;
+num = a +3;
+return num;
+};
 
 MAIN 
 {	
@@ -27,7 +33,10 @@ MAIN
 	};
 	
 	PrintTxt("Hello World");
-	PrintStr("The value of j is %i. \n",j);
+	
+	i = calc(k);
+	PrintStr("The value of i is %i. \n",i);
 }
 
 TERMINATE
+

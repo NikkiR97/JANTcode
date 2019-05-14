@@ -379,8 +379,11 @@ public:
   public:
     FuncCall_stmtContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    Funct_nameContext *funct_name();
     VariableContext *variable();
+    antlr4::tree::TerminalNode *EQ_operation();
+    Funct_nameContext *funct_name();
+    std::vector<ExprContext *> expr();
+    ExprContext* expr(size_t i);
 
 
     virtual antlrcpp::Any accept(antlr4::tree::ParseTreeVisitor *visitor) override;

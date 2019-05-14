@@ -40,7 +40,7 @@ stmt : compound_stmt    # compoundStmt
      
    
 compound_stmt : BEGIN stmt ';' ( stmt ';')* END ;     
-funcCall_stmt   : funct_name '(' variable ')';
+funcCall_stmt   : variable '=' funct_name '(' expr (',' expr)* ')';
 funct_return_stmt : RETURN variable ;     
 assignment_stmt : variable '=' expr ;
 loop_stmt  		: LOOP expr stmt ;

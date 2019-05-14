@@ -421,7 +421,7 @@ antlrcpp::Any Pass2Visitor::visitFunct(JANTParser::FunctContext *ctx){
 	  return value;
 }
 
-/*antlrcpp::Any Pass2Visitor::visitFuncCall_stmt(JANTParser::FuncCall_stmtContext *ctx){
+antlrcpp::Any Pass2Visitor::visitFuncCall_stmt(JANTParser::FuncCall_stmtContext *ctx){
 	string FunctName = ctx->funct_name()->getText() ;
 	string variable;
 	string parameters = "";
@@ -431,14 +431,39 @@ antlrcpp::Any Pass2Visitor::visitFunct(JANTParser::FunctContext *ctx){
 	for(int i=1; (ctx->expr(i) != NULL); i++){
 		value = visit(ctx->expr(i));
 		type_1 = ctx->expr(i)->type;
-		if(type1 == Predefined::integer_type){
+		if(type_1 == Predefined::integer_type){
 			parameters += "I";
 		}
-		else if(type1 == Predefined::integer_type){
+		else if(type_1 == Predefined::integer_type){
 			parameters += "F";
 		}
 	}
-}*/
+
+	j_file << "\tinvokestatic\t" + program_name + "/" + FunctName + "(" + parameters + ")";
+
+	type_1 = ctx->expr(0)->type;
+	parameters.clear();
+
+	if(type_1 == Predefined::integer_type){
+		j_file << "I" << endl;
+		parameters = "I";
+	}
+	else if(type_1 == Predefined::real_type){
+		j_file << "F" << endl;
+		parameters = "F";
+	}
+	else{
+		j_file << "V" << endl;
+	}
+
+	if(ctx->variable() != NULL){
+		variable = ctx->variable()->IDENTIFIER()->toString();
+		j_file << "\tputstatic\t" << program_name << "/" << variable << " " << parameters;
+	}
+	j_file << endl << endl;
+
+	return value;
+}
 
 antlrcpp::Any Pass2Visitor::visitFunct_name(JANTParser::Funct_nameContext *ctx){
    string Funct_Name = ctx->IDENTIFIER()->toString();
@@ -469,7 +494,7 @@ antlrcpp::Any Pass2Visitor::visitParam_list(JANTParser::Param_listContext *ctx){
 antlrcpp::Any Pass2Visitor::visitParam(JANTParser::ParamContext *ctx){
 	param_count++;
 
-	if(ctx->type_id()->IDENTIFIER()->toString == "int"){
+	if(ctx->type_id()->IDENTIFIER()->toString() == "int"){
 		variable_type = "I";
 	}
 	else if(ctx->type_id()->IDENTIFIER()->toString() == "real"){
@@ -482,10 +507,10 @@ antlrcpp::Any Pass2Visitor::visitParam(JANTParser::ParamContext *ctx){
 	auto value = visitChildren(ctx);
 	string Current_Type;
 
-	if(ctx->type_id()->IDENTIFIER()->toString == "int"){
+	if(ctx->type_id()->IDENTIFIER()->toString() == "int"){
 		Current_Type = "I";
 	}
-	else if(ctx->type_id()->IDENTIFIER()->toString == "real"){
+	else if(ctx->type_id()->IDENTIFIER()->toString() == "real"){
 		Current_Type = "F";
 	}
 	else{
